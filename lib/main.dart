@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 //My imports
 import 'package:e_commerce/componets/horizontal_listview.dart';
+import 'componets/products.dart';
 
 void main() => runApp(MyApp());
 
@@ -36,7 +37,7 @@ class _MyHomePageState extends State<MyHomePage> {
           AssetImage('images/m2.jpg'),
           AssetImage('images/m1.jpg'),
         ],
-        autoplay: true,
+        autoplay: false,
         animationCurve: Curves.fastLinearToSlowEaseIn,
         animationDuration: Duration(milliseconds: 1000),
         dotSize: 4.0,
@@ -153,62 +154,21 @@ class _MyHomePageState extends State<MyHomePage> {
               'Categories',
               style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18.0),
             ),
-            //Horizontal List View
           ),
-          Container(
-            child: Column(
-              children: <Widget>[
-                Text(
-                  'This is the main Body',
-                  style: TextStyle(fontSize: 50.0),
-                ),
-                Text(
-                  'This is the main Body',
-                  style: TextStyle(fontSize: 50.0),
-                ),
-                Text(
-                  'This is the main Body',
-                  style: TextStyle(fontSize: 50.0),
-                ),
-                Text(
-                  'This is the main Body',
-                  style: TextStyle(fontSize: 50.0),
-                ),
-                Text(
-                  'This is the main Body',
-                  style: TextStyle(fontSize: 50.0),
-                ),
-                Text(
-                  'This is the main Body',
-                  style: TextStyle(fontSize: 50.0),
-                ),
-                Text(
-                  'This is the main Body',
-                  style: TextStyle(fontSize: 50.0),
-                ),
-                Text(
-                  'This is the main Body',
-                  style: TextStyle(fontSize: 50.0),
-                ),
-                Text(
-                  'This is the main Body',
-                  style: TextStyle(fontSize: 50.0),
-                ),
-                Text(
-                  'This is the main Body',
-                  style: TextStyle(fontSize: 50.0),
-                ),
-                Text(
-                  'This is the main Body',
-                  style: TextStyle(fontSize: 50.0),
-                ),
-                Text(
-                  'This is the main Body',
-                  style: TextStyle(fontSize: 50.0),
-                ),
-              ],
+          //Horizontal List View
+          HorizontalList(),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Text(
+              'Recent Products',
+              style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18.0),
             ),
           ),
+          //Grid View
+          Container(
+            height: 320.0,
+            child: Products(),
+          )
         ],
       ),
     );
