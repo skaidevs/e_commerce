@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:e_commerce/pages/product_details.dart';
 
 class Products extends StatefulWidget {
   @override
@@ -18,7 +19,7 @@ class _ProductsState extends State<Products> {
       "pictures": "images/products/dress1.jpg",
       "old_price": "100",
       "price": "50",
-    }
+    },
   ];
 
   @override
@@ -51,42 +52,51 @@ class SingleProduct extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Card(
-        child: Hero(
-            tag: productName,
-            child: Material(
-              child: InkWell(
-                onTap: () {},
-                child: GridTile(
-                  footer: Container(
-                    color: Colors.white70,
-                    child: ListTile(
-                      leading: Text(
-                        productName,
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      title: Text(
-                        "\$$productPrice",
-                        style: TextStyle(
-                            color: Colors.black, fontWeight: FontWeight.w800),
-                      ),
-                      subtitle: Text(
-                        "\$$productOldPrice",
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            decoration: TextDecoration.lineThrough),
-                      ),
-                    ),
+    return Card(
+      child: Hero(
+        tag: productName,
+        child: Material(
+          child: InkWell(
+            onTap: () => Navigator.of(context).push(
+              MaterialPageRoute(
+                //Passing the values of the product to the product details page
+                builder: (context) => ProductDetails(
+                  productDetailName: productName,
+                  productDetailNewPrice: productPrice,
+                  productDetailOldPrice: productOldPrice,
+                  productDetailPicture: productPicture,
+                ),
+              ),
+            ),
+            child: GridTile(
+              footer: Container(
+                color: Colors.white70,
+                child: ListTile(
+                  leading: Text(
+                    productName,
+                    style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  child: Image.asset(
-                    productPicture,
-                    fit: BoxFit.cover,
+                  title: Text(
+                    "\$$productPrice",
+                    style: TextStyle(
+                        color: Colors.black, fontWeight: FontWeight.w800),
+                  ),
+                  subtitle: Text(
+                    "\$$productOldPrice",
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        decoration: TextDecoration.lineThrough),
                   ),
                 ),
               ),
-            )),
+              child: Image.asset(
+                productPicture,
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }

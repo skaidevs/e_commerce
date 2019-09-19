@@ -8,6 +8,7 @@ void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -23,6 +24,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  String money;
+
   @override
   Widget build(BuildContext context) {
     Widget imageCarousel = new Container(
@@ -149,7 +152,7 @@ class _MyHomePageState extends State<MyHomePage> {
         children: <Widget>[
           imageCarousel,
           Padding(
-            padding: const EdgeInsets.all(10.0),
+            padding: const EdgeInsets.all(8.0),
             child: Text(
               'Categories',
               style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18.0),
@@ -158,7 +161,7 @@ class _MyHomePageState extends State<MyHomePage> {
           //Horizontal List View
           HorizontalList(),
           Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(20.0),
             child: Text(
               'Recent Products',
               style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18.0),
