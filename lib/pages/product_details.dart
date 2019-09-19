@@ -86,7 +86,24 @@ class _ProductDetailsState extends State<ProductDetails> {
               // the size button
               Expanded(
                 child: MaterialButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: Text('Size'),
+                            content: Text('Choose the size'),
+                            actions: <Widget>[
+                              MaterialButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop(context);
+                                },
+                                child: Text('close'),
+                              ),
+                            ],
+                          );
+                        });
+                  },
                   color: Colors.white,
                   textColor: Colors.black87,
                   elevation: 0.2,
@@ -105,7 +122,24 @@ class _ProductDetailsState extends State<ProductDetails> {
               // the size button
               Expanded(
                 child: MaterialButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: Text('Color'),
+                            content: Text('Choose the Color'),
+                            actions: <Widget>[
+                              MaterialButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop(context);
+                                },
+                                child: Text('close'),
+                              ),
+                            ],
+                          );
+                        });
+                  },
                   color: Colors.white,
                   textColor: Colors.black87,
                   elevation: 0.2,
@@ -124,7 +158,24 @@ class _ProductDetailsState extends State<ProductDetails> {
               // the size button
               Expanded(
                 child: MaterialButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: Text('Quantity'),
+                            content: Text('Choose the qauntity'),
+                            actions: <Widget>[
+                              MaterialButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop(context);
+                                },
+                                child: Text('close'),
+                              ),
+                            ],
+                          );
+                        });
+                  },
                   color: Colors.white,
                   textColor: Colors.black87,
                   elevation: 0.2,
@@ -166,6 +217,66 @@ class _ProductDetailsState extends State<ProductDetails> {
                   color: Colors.black87,
                 ),
                 onPressed: () {},
+              ),
+            ],
+          ),
+          Divider(
+            color: Colors.black,
+            endIndent: 15.0,
+            indent: 15.0,
+          ),
+          ListTile(
+            title: Text('Product details'),
+            subtitle: Text(
+                'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.'),
+          ),
+          Divider(
+            color: Colors.black45,
+            endIndent: 15.0,
+            indent: 15.0,
+          ),
+          Row(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.fromLTRB(12.0, 5.0, 5.0, 5.0),
+                child: Text(
+                  'Product name:',
+                  style: TextStyle(color: Colors.grey),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.all(5.0),
+                child: Text(widget.productDetailName),
+              ),
+            ],
+          ),
+          Row(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.fromLTRB(12.0, 5.0, 5.0, 5.0),
+                child: Text(
+                  'Product brand:',
+                  style: TextStyle(color: Colors.grey),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.all(5.0),
+                child: Text("Nike"),
+              ),
+            ],
+          ),
+          Row(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.fromLTRB(12.0, 5.0, 5.0, 5.0),
+                child: Text(
+                  'Product condtion:',
+                  style: TextStyle(color: Colors.grey),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.all(5.0),
+                child: Text("New"),
               ),
             ],
           ),
