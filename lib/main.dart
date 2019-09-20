@@ -40,11 +40,12 @@ class _MyHomePageState extends State<MyHomePage> {
           AssetImage('images/m2.jpg'),
           AssetImage('images/m1.jpg'),
         ],
-        autoplay: false,
+        autoplay: true,
         animationCurve: Curves.fastLinearToSlowEaseIn,
         animationDuration: Duration(milliseconds: 1000),
         dotSize: 4.0,
         indicatorBgPadding: 8.0,
+        dotBgColor: Colors.transparent,
       ),
     );
 
@@ -115,8 +116,8 @@ class _MyHomePageState extends State<MyHomePage> {
             InkWell(
               onTap: () {},
               child: ListTile(
-                title: Text('Categories'),
-                leading: Icon(Icons.dashboard),
+                title: Text('Shopping Cart'),
+                leading: Icon(Icons.shopping_cart),
               ),
             ),
 
@@ -169,7 +170,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           //Grid View
           Container(
-            height: 320.0,
+            height: 380.0,
             child: Products(),
           )
         ],

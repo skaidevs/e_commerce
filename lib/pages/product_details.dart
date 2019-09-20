@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:e_commerce/main.dart';
 
 class ProductDetails extends StatefulWidget {
   final productDetailName;
@@ -23,7 +24,14 @@ class _ProductDetailsState extends State<ProductDetails> {
       appBar: AppBar(
         elevation: 0.0,
         backgroundColor: Colors.black,
-        title: Text('Store'),
+        title: InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => MyHomePage()),
+              );
+            },
+            child: Text('Store')),
         actions: <Widget>[
           IconButton(
               icon: Icon(
@@ -31,12 +39,6 @@ class _ProductDetailsState extends State<ProductDetails> {
                 color: Colors.white,
               ),
               onPressed: () {}),
-          IconButton(
-              icon: Icon(
-                Icons.shopping_cart,
-                color: Colors.white,
-              ),
-              onPressed: () {})
         ],
       ),
       body: ListView(
@@ -226,7 +228,13 @@ class _ProductDetailsState extends State<ProductDetails> {
             indent: 15.0,
           ),
           ListTile(
-            title: Text('Product details'),
+            title: Padding(
+              padding: const EdgeInsets.only(bottom: 5.0),
+              child: Text(
+                'Product details',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
             subtitle: Text(
                 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.'),
           ),
@@ -278,9 +286,137 @@ class _ProductDetailsState extends State<ProductDetails> {
                 padding: EdgeInsets.all(5.0),
                 child: Text("New"),
               ),
+              //Similar Products section
             ],
           ),
+          Divider(
+            color: Colors.black38,
+            endIndent: 15.0,
+            indent: 15.0,
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              'Similar products',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+          ),
+
+          Container(
+            height: 380.0,
+            child: SimilarProducts(),
+          ),
         ],
+      ),
+    );
+  }
+}
+
+class SimilarProducts extends StatefulWidget {
+  @override
+  _SimilarProductsState createState() => _SimilarProductsState();
+}
+
+class _SimilarProductsState extends State<SimilarProducts> {
+  var productList = [
+    {
+      "name": "Blazer",
+      "pictures": "images/products/blazer1.jpg",
+      "old_price": "120",
+      "price": "85",
+    },
+    {
+      "name": "Jimmy Choo Hill",
+      "pictures": "images/products/hills1.jpg",
+      "old_price": "110",
+      "price": "70",
+    },
+    {
+      "name": "Black dress",
+      "pictures": "images/products/dress1.jpg",
+      "old_price": "100",
+      "price": "50",
+    },
+    {
+      "name": "Kaki joggers",
+      "pictures": "images/products/pants2.jpg",
+      "old_price": "310",
+      "price": "270",
+    },
+  ];
+  @override
+  Widget build(BuildContext context) {
+    return GridView.builder(
+        itemCount: productList.length,
+        gridDelegate:
+            SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+        itemBuilder: (BuildContext context, int index) {
+          return SimilarSingleProduct(
+            productName: productList[index]['name'],
+            productPicture: productList[index]['pictures'],
+            productOldPrice: productList[index]['old_price'],
+            productPrice: productList[index]['price'],
+          );
+        });
+  }
+}
+
+class SimilarSingleProduct extends StatelessWidget {
+  final productName;
+  final productPicture;
+  final productOldPrice;
+  final productPrice;
+  SimilarSingleProduct(
+      {this.productName,
+      this.productPicture,
+      this.productOldPrice,
+      this.productPrice});
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: Hero(
+        tag: Text('hero 1'),
+        child: Material(
+          child: InkWell(
+            onTap: () => Navigator.of(context).push(
+              MaterialPageRoute(
+                //Passing the values of the product to the product details page
+                builder: (context) => ProductDetails(
+                  productDetailName: productName,
+                  productDetailNewPrice: productPrice,
+                  productDetailOldPrice: productOldPrice,
+                  productDetailPicture: productPicture,
+                ),
+              ),
+            ),
+            child: GridTile(
+              footer: Container(
+                color: Colors.white70,
+                child: Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: Text(
+                        productName,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 16.0),
+                      ),
+                    ),
+                    Text(
+                      "\$$productPrice",
+                      style: TextStyle(
+                          color: Colors.black, fontWeight: FontWeight.bold),
+                    )
+                  ],
+                ),
+              ),
+              child: Image.asset(
+                productPicture,
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }

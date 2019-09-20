@@ -9,16 +9,40 @@ class Products extends StatefulWidget {
 class _ProductsState extends State<Products> {
   var productList = [
     {
+      "name": "Blue dress",
+      "pictures": "images/products/dress2.jpg",
+      "old_price": "230",
+      "price": "110",
+    },
+    {
+      "name": "Joggers",
+      "pictures": "images/products/pants1.jpg",
+      "old_price": "90",
+      "price": "67",
+    },
+    {
       "name": "Blazer",
       "pictures": "images/products/blazer1.jpg",
       "old_price": "120",
       "price": "85",
     },
     {
-      "name": "Black Dress",
+      "name": "Jimmy Choo Hill",
+      "pictures": "images/products/hills1.jpg",
+      "old_price": "110",
+      "price": "70",
+    },
+    {
+      "name": "Black dress",
       "pictures": "images/products/dress1.jpg",
       "old_price": "100",
       "price": "50",
+    },
+    {
+      "name": "Kaki joggers",
+      "pictures": "images/products/pants2.jpg",
+      "old_price": "310",
+      "price": "270",
     },
   ];
 
@@ -71,23 +95,21 @@ class SingleProduct extends StatelessWidget {
             child: GridTile(
               footer: Container(
                 color: Colors.white70,
-                child: ListTile(
-                  leading: Text(
-                    productName,
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  title: Text(
-                    "\$$productPrice",
-                    style: TextStyle(
-                        color: Colors.black, fontWeight: FontWeight.w800),
-                  ),
-                  subtitle: Text(
-                    "\$$productOldPrice",
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        decoration: TextDecoration.lineThrough),
-                  ),
+                child: Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: Text(
+                        productName,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 16.0),
+                      ),
+                    ),
+                    Text(
+                      "\$$productPrice",
+                      style: TextStyle(
+                          color: Colors.black, fontWeight: FontWeight.bold),
+                    )
+                  ],
                 ),
               ),
               child: Image.asset(
