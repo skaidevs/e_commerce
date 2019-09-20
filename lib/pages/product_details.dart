@@ -329,7 +329,7 @@ class _SimilarProductsState extends State<SimilarProducts> {
       "name": "Jimmy Choo Hill",
       "pictures": "images/products/hills1.jpg",
       "old_price": "110",
-      "price": "70",
+      "price": "80",
     },
     {
       "name": "Black dress",
