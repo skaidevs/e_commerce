@@ -322,7 +322,7 @@ class _SimilarProductsState extends State<SimilarProducts> {
     {
       "name": "Blazer",
       "pictures": "images/products/blazer1.jpg",
-      "old_price": "120",
+      "old_price": "130",
       "price": "85",
     },
     {
