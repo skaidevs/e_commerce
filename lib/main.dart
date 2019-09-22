@@ -3,6 +3,7 @@ import 'package:carousel_pro/carousel_pro.dart';
 //My imports
 import 'package:e_commerce/componets/horizontal_listview.dart';
 import 'componets/products.dart';
+import 'package:e_commerce/pages/cart.dart';
 
 void main() => runApp(MyApp());
 
@@ -66,7 +67,14 @@ class _MyHomePageState extends State<MyHomePage> {
                 Icons.shopping_cart,
                 color: Colors.white,
               ),
-              onPressed: () {})
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Cart(),
+                  ),
+                );
+              })
         ],
       ),
       drawer: Drawer(
@@ -114,7 +122,14 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
 
             InkWell(
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Cart(),
+                  ),
+                );
+              },
               child: ListTile(
                 title: Text('Shopping Cart'),
                 leading: Icon(Icons.shopping_cart),
