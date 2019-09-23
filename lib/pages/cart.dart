@@ -34,7 +34,7 @@ class _CartState extends State<Cart> {
               child: ListTile(
                 title: Text('Total:'),
                 subtitle: Text(
-                  "\$390",
+                  "\$1090",
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Colors.black,
