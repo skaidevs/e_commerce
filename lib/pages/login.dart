@@ -97,11 +97,55 @@ class _LoginState extends State<Login> {
       setState(() {
         loading = false;
       });
-    } else {}
+
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => MyHomePage()),
+      );
+    } else {
+      Fluttertoast.showToast(msg: "Unsuccessful :(");
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        centerTitle: true,
+        title: Text(
+          'Login',
+          style: TextStyle(color: Colors.black),
+        ),
+        elevation: 0.5,
+      ),
+      body: Stack(
+        children: <Widget>[
+          Center(
+            child: FlatButton(
+              color: Colors.black,
+              onPressed: () {
+                handleSignIn();
+              },
+              child: Text(
+                "Sign in / Sign up with google",
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+          ),
+          Visibility(
+            visible: loading ?? true,
+            child: Center(
+              child: Container(
+                alignment: Alignment.center,
+                child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
