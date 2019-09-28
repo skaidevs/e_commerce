@@ -1,39 +1,41 @@
 import 'package:flutter/material.dart';
 
 ///CustomInputFiled can be used anywhere!!!
-class CustomInputFiled extends StatefulWidget {
+class CustomInputField extends StatefulWidget {
   final Icon fieldIcon;
   final String hintText;
   final bool isObscure;
   final TextEditingController editingController;
   final Function function;
+  final IconButton iconButton;
 
-  const CustomInputFiled(
+  const CustomInputField(
       {Key key,
       this.fieldIcon,
       this.hintText,
       this.isObscure,
       this.editingController,
-      this.function})
+      this.function,
+      this.iconButton})
       : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return new CustomInputState(
-        fieldIcon, hintText, isObscure, editingController, function);
+    return new CustomInputState(fieldIcon, hintText, isObscure,
+        editingController, function, iconButton);
   }
 }
 
-class CustomInputState extends State<CustomInputFiled> {
+class CustomInputState extends State<CustomInputField> {
   Icon fieldIcon;
   String hintText;
   bool isObscure;
   TextEditingController controller;
   Function validator;
+  IconButton iconButton;
 
   CustomInputState(this.fieldIcon, this.hintText, this.isObscure,
-      this.controller, this.validator);
-
+      this.controller, this.validator, this.iconButton);
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -43,17 +45,20 @@ class CustomInputState extends State<CustomInputFiled> {
         color: Colors.white.withOpacity(0.8),
         elevation: 0.0,
         child: Padding(
-          padding: const EdgeInsets.only(left: 12.0),
-          child: TextFormField(
-            obscureText: isObscure,
-            decoration: InputDecoration(
-              hintText: hintText,
-              icon: fieldIcon,
-              border: InputBorder.none,
+          padding: const EdgeInsets.only(left: 10.0),
+          child: ListTile(
+            title: TextFormField(
+              obscureText: isObscure,
+              decoration: InputDecoration(
+                hintText: hintText,
+                icon: fieldIcon,
+                border: InputBorder.none,
+              ),
+              keyboardType: TextInputType.emailAddress,
+              controller: controller,
+              validator: validator,
             ),
-            keyboardType: TextInputType.emailAddress,
-            controller: controller,
-            validator: validator,
+            trailing: iconButton,
           ),
         ),
       ),
