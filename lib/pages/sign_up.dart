@@ -155,7 +155,7 @@ class _SignUpState extends State<SignUp> {
                         return null;
                       },
                     ),
-                    /*CustomInputField(
+                    CustomInputField(
                       isObscure: hidePassword,
                       fieldIcon: Icon(
                         Icons.lock,
@@ -184,7 +184,7 @@ class _SignUpState extends State<SignUp> {
 
                         return null;
                       },
-                    ),*/
+                    ),
                     SizedBox(
                       height: 15,
                     ),
