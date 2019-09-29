@@ -271,23 +271,6 @@ class _SignUpState extends State<SignUp> {
       FirebaseUser user = await firebaseAuth.currentUser();
 
       if (user == null) {
-//        firebaseAuth
-//            .createUserWithEmailAndPassword(
-//                email: _emailTextController.text,
-//                password: _passwordTextController.text)
-//            .then(
-//              (users) => _usersServices.createUser({
-//                "username": _nameTextController.text,
-//                "email": _emailTextController.text,
-//                "userId": user.uid,
-//                "gender": gender,
-//              }),
-//            )
-//            .catchError(
-//              (err) => print(
-//                err.toString(),
-//              ),
-//            );
         firebaseAuth
             .createUserWithEmailAndPassword(
                 email: _emailTextController.text,
