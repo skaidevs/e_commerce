@@ -1,3 +1,5 @@
+import 'package:e_commerce/pages/login.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 //My imports
@@ -145,6 +147,28 @@ class _MyHomePageState extends State<MyHomePage> {
               child: ListTile(
                 title: Text('About'),
                 leading: Icon(Icons.help),
+              ),
+            ),
+
+            Divider(),
+
+            InkWell(
+              onTap: () {
+                FirebaseAuth.instance.signOut().then((value) {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Login(),
+                    ),
+                  );
+                });
+              },
+              child: ListTile(
+                title: Text('Log out'),
+                leading: Icon(
+                  Icons.transit_enterexit,
+                  color: Colors.grey,
+                ),
               ),
             ),
           ],

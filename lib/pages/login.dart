@@ -17,7 +17,6 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   final GoogleSignIn googleSignIn = new GoogleSignIn();
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-  final _formKey = GlobalKey<FormState>();
   TextEditingController _emailTextController = TextEditingController();
   TextEditingController _passwordTextController = TextEditingController();
 
@@ -35,6 +34,18 @@ class _LoginState extends State<Login> {
   void isSignedIn() async {
     setState(() {
       loading = true;
+    });
+
+    await firebaseAuth.currentUser().then((user) {
+      if (user != null) {
+        setState(() => isLoggedIn = true);
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => MyHomePage(),
+          ),
+        );
+      }
     });
 
     preferences = await SharedPreferences.getInstance();
@@ -99,7 +110,7 @@ class _LoginState extends State<Login> {
         await preferences.setString("id", documents[0]["id"]);
         await preferences.setString("username", documents[0]["username"]);
         await preferences.setString(
-            "iprofilePictured", documents[0]["profilePicture"]);
+            "profilePicture", documents[0]["profilePicture"]);
       }
 
       Fluttertoast.showToast(msg: "Successful");

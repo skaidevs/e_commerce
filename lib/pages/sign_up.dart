@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_commerce/pages/custom_ui/custom_input_field.dart';
 import 'package:e_commerce/pages/home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -12,6 +13,8 @@ class SignUp extends StatefulWidget {
 class _SignUpState extends State<SignUp> {
   TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  final _fireStore = Firestore.instance;
+
   final _formKey = GlobalKey<FormState>();
   UserServices _usersServices = UserServices();
   TextEditingController _emailTextController = TextEditingController();
@@ -263,20 +266,38 @@ class _SignUpState extends State<SignUp> {
 
   Future validateForm() async {
     FormState formState = _formKey.currentState;
-    FirebaseUser user = await firebaseAuth.currentUser();
 
     if (formState.validate()) {
+      FirebaseUser user = await firebaseAuth.currentUser();
+
       if (user == null) {
+//        firebaseAuth
+//            .createUserWithEmailAndPassword(
+//                email: _emailTextController.text,
+//                password: _passwordTextController.text)
+//            .then(
+//              (users) => _usersServices.createUser({
+//                "username": _nameTextController.text,
+//                "email": _emailTextController.text,
+//                "userId": user.uid,
+//                "gender": gender,
+//              }),
+//            )
+//            .catchError(
+//              (err) => print(
+//                err.toString(),
+//              ),
+//            );
         firebaseAuth
             .createUserWithEmailAndPassword(
                 email: _emailTextController.text,
                 password: _passwordTextController.text)
             .then(
-              (users) => _usersServices.createUser({
+              (user) => _fireStore.collection("users").add({
                 "username": _nameTextController.text,
                 "email": _emailTextController.text,
-                "userId": user.uid,
-                "gender": gender,
+                "userId": user.user.uid,
+                "gender": gender.toString(),
               }),
             )
             .catchError(
@@ -285,14 +306,12 @@ class _SignUpState extends State<SignUp> {
               ),
             );
 
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => MyHomePage(),
-          ),
-        );
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => MyHomePage()),
+            ModalRoute.withName(MyHomePage().toString()));
       } else {
-        print("Cant register, you have to make a log out first");
+        print("already a user");
       }
     }
   }
