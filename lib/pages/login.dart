@@ -20,6 +20,8 @@ class _LoginState extends State<Login> {
   TextEditingController _emailTextController = TextEditingController();
   TextEditingController _passwordTextController = TextEditingController();
 
+  final _auth = FirebaseAuth.instance;
+
   SharedPreferences preferences;
   bool loading = false;
   bool isLoggedIn = false;
@@ -219,7 +221,28 @@ class _LoginState extends State<Login> {
                             ),
                           ),
                           //TODO: implementing an authentication function(check if user is Auth)
-                          onPressed: () {},
+                          onPressed: () async {
+                            try {
+                              final user =
+                                  await _auth.signInWithEmailAndPassword(
+                                      email: _emailTextController.text,
+                                      password: _passwordTextController.text);
+
+                              if (user != null) {
+                                loading = true;
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => MyHomePage(),
+                                  ),
+                                );
+                              } else {
+                                print("you have to register");
+                              }
+                            } catch (e) {
+                              print(e);
+                            }
+                          },
                         ),
                       ),
                     ),
