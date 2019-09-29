@@ -152,7 +152,7 @@ class _SignUpState extends State<SignUp> {
                         return null;
                       },
                     ),
-                    CustomInputField(
+                    /*CustomInputField(
                       isObscure: hidePassword,
                       fieldIcon: Icon(
                         Icons.lock,
@@ -181,7 +181,7 @@ class _SignUpState extends State<SignUp> {
 
                         return null;
                       },
-                    ),
+                    ),*/
                     SizedBox(
                       height: 15,
                     ),
@@ -263,9 +263,9 @@ class _SignUpState extends State<SignUp> {
 
   Future validateForm() async {
     FormState formState = _formKey.currentState;
+    FirebaseUser user = await firebaseAuth.currentUser();
 
     if (formState.validate()) {
-      FirebaseUser user = await firebaseAuth.currentUser();
       if (user == null) {
         firebaseAuth
             .createUserWithEmailAndPassword(
@@ -273,8 +273,8 @@ class _SignUpState extends State<SignUp> {
                 password: _passwordTextController.text)
             .then(
               (users) => _usersServices.createUser({
-                "username": _nameTextController.text.toString(),
-                "email": _emailTextController.text.toString(),
+                "username": _nameTextController.text,
+                "email": _emailTextController.text,
                 "userId": user.uid,
                 "gender": gender,
               }),
@@ -284,14 +284,16 @@ class _SignUpState extends State<SignUp> {
                 err.toString(),
               ),
             );
-      }
 
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => MyHomePage(),
-        ),
-      );
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => MyHomePage(),
+          ),
+        );
+      } else {
+        print("Cant register, you have to make a log out first");
+      }
     }
   }
 }
