@@ -229,7 +229,6 @@ class _LoginState extends State<Login> {
                                       password: _passwordTextController.text);
 
                               if (user != null) {
-                                loading = true;
                                 Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(

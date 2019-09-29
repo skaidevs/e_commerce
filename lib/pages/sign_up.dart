@@ -23,7 +23,7 @@ class _SignUpState extends State<SignUp> {
   TextEditingController _confirmPasswordTextController =
       TextEditingController();
   String gender;
-  String groupValue = "male";
+  String groupValue;
 
   bool loading = false;
   bool hidePassword = true;
@@ -280,7 +280,7 @@ class _SignUpState extends State<SignUp> {
                 "username": _nameTextController.text,
                 "email": _emailTextController.text,
                 "userId": user.user.uid,
-                "gender": gender.toString(),
+                "gender": (gender.toString()),
               }),
             )
             .catchError(
