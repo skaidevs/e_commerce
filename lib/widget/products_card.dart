@@ -1,3 +1,4 @@
+import 'package:e_commerce/screens/product_details.dart';
 import 'package:e_commerce/widget/common.dart';
 import 'package:flutter/material.dart';
 
@@ -17,46 +18,60 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Row(
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: Image.asset(
-                picture,
-                height: 90,
-                width: 90,
-                fit: BoxFit.cover,
-              ),
+    return InkWell(
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => ProductDetails(
+              productName: name,
+              productBrand: brand,
+              productPicture: picture,
+              productPrice: price,
             ),
           ),
-          SizedBox(
-            width: 10,
-          ),
-          RichText(
-            text: TextSpan(children: [
-              TextSpan(
-                text: '$name \n',
-                style: TextStyle(fontSize: 20),
+        );
+      },
+      child: Container(
+        child: Row(
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Image.asset(
+                  picture,
+                  height: 90,
+                  width: 90,
+                  fit: BoxFit.cover,
+                ),
               ),
-              TextSpan(
-                text: 'by: $brand \n',
-                style: TextStyle(fontSize: 16, color: Colors.grey),
-              ),
-              TextSpan(
-                text: '\$${price.toString()} \t',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-              ),
-              TextSpan(
-                text: 'ON SALE ',
-                style: TextStyle(
-                    fontSize: 18, fontWeight: FontWeight.w600, color: black),
-              ),
-            ], style: TextStyle(color: Colors.black)),
-          )
-        ],
+            ),
+            SizedBox(
+              width: 10,
+            ),
+            RichText(
+              text: TextSpan(children: [
+                TextSpan(
+                  text: '$name \n',
+                  style: TextStyle(fontSize: 20),
+                ),
+                TextSpan(
+                  text: 'by: $brand \n',
+                  style: TextStyle(fontSize: 16, color: Colors.grey),
+                ),
+                TextSpan(
+                  text: '\$${price.toString()} \t',
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                ),
+                TextSpan(
+                  text: 'ON SALE ',
+                  style: TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.w600, color: black),
+                ),
+              ], style: TextStyle(color: Colors.black)),
+            )
+          ],
+        ),
       ),
     );
   }

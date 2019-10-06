@@ -15,8 +15,15 @@ class FeaturedCard extends StatelessWidget {
       padding: EdgeInsets.all(4),
       child: InkWell(
         onTap: () {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (_) => ProductDetails()));
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => ProductDetails(
+                productName: name,
+                productPrice: price,
+                productPicture: picture,
+              ),
+            ),
+          );
         },
         child: Container(
           decoration: BoxDecoration(

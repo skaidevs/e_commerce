@@ -9,7 +9,7 @@ class _SearchState extends State<Search> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(15),
+      padding: EdgeInsets.all(10),
       child: Container(
         decoration: BoxDecoration(
           color: Colors.blueGrey[50],

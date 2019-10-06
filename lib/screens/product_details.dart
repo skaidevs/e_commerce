@@ -1,6 +1,20 @@
+import 'package:e_commerce/widget/common.dart';
 import 'package:flutter/material.dart';
 
 class ProductDetails extends StatefulWidget {
+  final productName;
+  final productPicture;
+  final productBrand;
+  final productPrice;
+  final ProductOnSale;
+
+  ProductDetails(
+      {this.productName,
+      this.productPicture,
+      this.productBrand,
+      this.productPrice,
+      this.ProductOnSale});
+
   @override
   _ProductDetailsState createState() => _ProductDetailsState();
 }
@@ -9,6 +23,32 @@ class _ProductDetailsState extends State<ProductDetails> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: black,
+      appBar: AppBar(
+        elevation: 0.0,
+        backgroundColor: Colors.black,
+        actions: <Widget>[
+          IconButton(
+              icon: Icon(
+                Icons.shopping_cart,
+                color: Colors.white,
+              ),
+              onPressed: () {}),
+          IconButton(
+              icon: Icon(
+                Icons.favorite,
+                color: Colors.white,
+              ),
+              onPressed: () {
+//                Navigator.push(
+//                  context,
+//                  MaterialPageRoute(
+//                    builder: (context) => Cart(),
+//                  ),
+//                );
+              }),
+        ],
+      ),
       body: SafeArea(
           child: Container(
         color: Colors.black.withOpacity(0.9),
@@ -17,9 +57,10 @@ class _ProductDetailsState extends State<ProductDetails> {
             Stack(
               children: <Widget>[
                 Image.asset(
-                  "images/m2.jpg",
-                  height: 350,
-                  fit: BoxFit.cover,
+                  widget.productPicture,
+                  fit: BoxFit.fill,
+                  width: double.infinity,
+                  height: 350.0,
                 ),
                 Align(
                   alignment: Alignment.topCenter,
@@ -34,58 +75,17 @@ class _ProductDetailsState extends State<ProductDetails> {
                           // Add one stop for each color. Stops should increase from 0 to 1
                           colors: [
                             // Colors are easy thanks to Flutter's Colors class.
-                            Colors.black.withOpacity(0.7),
+                            /* Colors.black.withOpacity(0.7),
                             Colors.black.withOpacity(0.5),
                             Colors.black.withOpacity(0.07),
                             Colors.black.withOpacity(0.05),
-                            Colors.black.withOpacity(0.025),
+                            Colors.black.withOpacity(0.025),*/
                           ],
                         ),
                       ),
                       child: Padding(
                           padding: const EdgeInsets.only(top: 8.0),
                           child: Container())),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Padding(
-                        padding: const EdgeInsets.all(4.0),
-                        child: IconButton(
-                            icon: Icon(
-                              Icons.arrow_back_ios,
-                              color: Colors.white,
-                            ),
-                            onPressed: () {
-                              Navigator.pop(context);
-                            })),
-                    Row(
-                      children: <Widget>[
-                        Padding(
-                            padding: const EdgeInsets.all(4),
-                            child: Card(
-                              elevation: 10,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20)),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Icon(Icons.shopping_cart),
-                              ),
-                            )),
-                        Padding(
-                            padding: const EdgeInsets.all(4),
-                            child: Card(
-                              elevation: 10,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20)),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Icon(Icons.favorite_border),
-                              ),
-                            )),
-                      ],
-                    ),
-                  ],
                 ),
                 Align(
                   alignment: Alignment.bottomCenter,
@@ -124,7 +124,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                           Padding(
                             padding: const EdgeInsets.all(10.0),
                             child: Text(
-                              'Product Blazer',
+                              widget.productName,
                               style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.w300,
@@ -134,7 +134,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                           Padding(
                             padding: const EdgeInsets.all(10.0),
                             child: Text(
-                              '\$35.99',
+                              "\$${widget.productPrice}",
                               textAlign: TextAlign.end,
                               style: TextStyle(
                                   color: Colors.white,
