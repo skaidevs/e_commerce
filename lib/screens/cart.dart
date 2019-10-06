@@ -1,7 +1,7 @@
+import 'package:e_commerce/widget/cart_products.dart';
 import 'package:flutter/material.dart';
 
 //My imports
-import 'package:e_commerce/componets/cart_products.dart';
 
 class Cart extends StatefulWidget {
   @override

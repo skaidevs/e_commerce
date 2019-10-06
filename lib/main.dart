@@ -1,4 +1,4 @@
-import 'package:e_commerce/pages/login.dart';
+import 'package:e_commerce/screens/login.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());

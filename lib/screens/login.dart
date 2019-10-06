@@ -1,6 +1,6 @@
-import 'package:e_commerce/commons/common.dart';
-import 'package:e_commerce/pages/home.dart';
-import 'package:e_commerce/pages/sign_up.dart';
+import 'package:e_commerce/screens/home.dart';
+import 'package:e_commerce/screens/sign_up.dart';
+import 'package:e_commerce/widget/common.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fluttertoast/fluttertoast.dart';
