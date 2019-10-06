@@ -185,7 +185,7 @@ class _HomePageState extends State<MyHomePage> {
                       padding: const EdgeInsets.all(14.0),
                       child: Container(
                           alignment: Alignment.centerLeft,
-                          child: new Text('Recent product')),
+                          child: new Text('Recent products')),
                     ),
                   ],
                 ),
