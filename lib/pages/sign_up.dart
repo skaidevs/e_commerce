@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:e_commerce/commons/common.dart';
+import 'package:e_commerce/db/auth.dart';
 import 'package:e_commerce/pages/custom_ui/custom_input_field.dart';
 import 'package:e_commerce/pages/home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -27,12 +29,13 @@ class _SignUpState extends State<SignUp> {
 
   bool loading = false;
   bool hidePassword = true;
+  Auth _auth = Auth();
 
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
       body: Container(
-        color: Colors.black,
+        color: black,
         child: Stack(
           children: <Widget>[
             Image.asset(
@@ -45,193 +48,209 @@ class _SignUpState extends State<SignUp> {
             Container(
               child: Form(
                 key: _formKey,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    CustomInputField(
-                      isObscure: false,
-                      fieldIcon: Icon(
-                        Icons.person,
-                        color: Colors.black,
-                      ),
-                      hintText: 'Full Name',
-                      editingController: _nameTextController,
-                      function: (value) {
-                        if (value.isEmpty) {
-                          return "The name field can not be emty";
-                        }
-
-                        return null;
-                      },
-                    ),
-                    Row(
+                child: Center(
+                  child: Container(
+                    height: 600.0,
+                    child: ListView(
                       children: <Widget>[
-                        Expanded(
-                          child: ListTile(
-                            title: Text(
-                              "Male",
-                              style: TextStyle(color: Colors.white),
-                              textAlign: TextAlign.end,
-                            ),
-                            trailing: Radio(
-                              activeColor: Colors.white,
-                              value: "male",
-                              groupValue: groupValue,
-                              onChanged: (e) => valueChanged(e),
-                            ),
+                        CustomInputField(
+                          isObscure: false,
+                          fieldIcon: Icon(
+                            Icons.person,
+                            color: black,
                           ),
-                        ),
-                        Expanded(
-                          child: ListTile(
-                            title: Text(
-                              "Female",
-                              textAlign: TextAlign.end,
-                              style: TextStyle(color: Colors.white),
-                            ),
-                            trailing: Radio(
-                              value: "female",
-                              activeColor: Colors.white,
-                              groupValue: groupValue,
-                              onChanged: (e) => valueChanged(e),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    CustomInputField(
-                      isObscure: false,
-                      fieldIcon: Icon(
-                        Icons.email,
-                        color: Colors.black,
-                      ),
-                      hintText: 'Email',
-                      editingController: _emailTextController,
-                      function: (value) {
-                        if (value.isEmpty) {
-                          Pattern pattern =
-                              r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-                          RegExp regex = new RegExp(pattern);
-                          if (!regex.hasMatch(value))
-                            return 'Please make sure your email address is valid';
-                          else
+                          hintText: 'Full Name',
+                          editingController: _nameTextController,
+                          function: (value) {
+                            if (value.isEmpty) {
+                              return "The name field can not be emty";
+                            }
+
                             return null;
-                        }
-
-                        return null;
-                      },
-                    ),
-                    CustomInputField(
-                      isObscure: hidePassword,
-                      fieldIcon: Icon(
-                        Icons.lock,
-                        color: Colors.black,
-                      ),
-                      hintText: 'Password',
-                      editingController: _passwordTextController,
-                      //TODO: Fix the show password function
-                      iconButton: IconButton(
-                          icon: Icon(Icons.remove_red_eye),
-                          onPressed: () {
-                            setState(() {
-                              hidePassword = false;
-                              loading = false;
-                            });
-                          }),
-                      function: (value) {
-                        if (value.isEmpty) {
-                          loading = false;
-
-                          return "The password field can not be emty";
-                        } else if (value.length < 6) {
-                          loading = false;
-
-                          return "The password has to be at leat 6 characters long";
-                        } else if (_passwordTextController.text != value) {
-                          loading = false;
-
-                          return "the passwords do not match";
-                        }
-
-                        return null;
-                      },
-                    ),
-                    CustomInputField(
-                      isObscure: hidePassword,
-                      fieldIcon: Icon(
-                        Icons.lock,
-                        color: Colors.black,
-                      ),
-                      hintText: 'Confirm Password',
-                      editingController: _confirmPasswordTextController,
-                      iconButton: IconButton(
-                          icon: Icon(Icons.remove_red_eye),
-                          onPressed: () {
-                            setState(() {
-                              hidePassword = false;
-                              loading = false;
-                            });
-                          }),
-                      function: (value) {
-                        if (value.isEmpty) {
-                          loading = false;
-
-                          return "The password field can not be emty";
-                        } else if (value.length < 6) {
-                          loading = false;
-
-                          return "The password has to be at leat 6 characters long";
-                        }
-
-                        return null;
-                      },
-                    ),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Container(
-                          margin: EdgeInsets.only(left: 14),
-                          width: 250,
-                          height: 50,
-                          child: RaisedButton(
-                            color: Colors.black,
-                            textColor: Colors.white,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10.0)),
-                            child: Text(
-                              'Sign Up',
-                              style: TextStyle(
-                                fontSize: 18.0,
+                          },
+                        ),
+                        Row(
+                          children: <Widget>[
+                            Expanded(
+                              child: ListTile(
+                                title: Text(
+                                  "Male",
+                                  style: TextStyle(color: white),
+                                  textAlign: TextAlign.end,
+                                ),
+                                trailing: Radio(
+                                  activeColor: white,
+                                  value: "male",
+                                  groupValue: groupValue,
+                                  onChanged: (e) => valueChanged(e),
+                                ),
                               ),
                             ),
-                            //TODO: implementing Registration
-                            onPressed: () async {
-                              await validateForm();
-                            },
-                          ),
-                        ),
-                        Container(
-                          alignment: Alignment.center,
-                          margin: EdgeInsets.only(right: 30),
-                          child: InkWell(
-                            child: Text(
-                              'Login',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 20.0,
-                                  fontWeight: FontWeight.bold),
+                            Expanded(
+                              child: ListTile(
+                                title: Text(
+                                  "Female",
+                                  textAlign: TextAlign.end,
+                                  style: TextStyle(color: white),
+                                ),
+                                trailing: Radio(
+                                  value: "female",
+                                  activeColor: white,
+                                  groupValue: groupValue,
+                                  onChanged: (e) => valueChanged(e),
+                                ),
+                              ),
                             ),
-                            onTap: () {
-                              Navigator.pop(context);
-                            },
+                          ],
+                        ),
+                        CustomInputField(
+                          isObscure: false,
+                          fieldIcon: Icon(
+                            Icons.email,
+                            color: black,
+                          ),
+                          hintText: 'Email',
+                          editingController: _emailTextController,
+                          function: (value) {
+                            if (value.isEmpty) {
+                              Pattern pattern =
+                                  r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+                              RegExp regex = new RegExp(pattern);
+                              if (!regex.hasMatch(value))
+                                return 'Please make sure your email address is valid';
+                              else
+                                return null;
+                            }
+
+                            return null;
+                          },
+                        ),
+                        CustomInputField(
+                          isObscure: hidePassword,
+                          fieldIcon: Icon(
+                            Icons.lock,
+                            color: black,
+                          ),
+                          hintText: 'Password',
+                          editingController: _passwordTextController,
+                          //TODO: Fix the show password function
+                          iconButton: IconButton(
+                              icon: Icon(Icons.remove_red_eye),
+                              onPressed: () {
+                                setState(() {
+                                  hidePassword = false;
+                                  loading = false;
+                                });
+                              }),
+                          function: (value) {
+                            if (value.isEmpty) {
+                              loading = false;
+
+                              return "The password field can not be emty";
+                            } else if (value.length < 6) {
+                              loading = false;
+
+                              return "The password has to be at leat 6 characters long";
+                            } else if (_passwordTextController.text != value) {
+                              loading = false;
+
+                              return "the passwords do not match";
+                            }
+
+                            return null;
+                          },
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            width: 250,
+                            height: 50,
+                            child: RaisedButton(
+                              color: black,
+                              textColor: white,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0)),
+                              child: Text(
+                                'Sign Up',
+                                style: TextStyle(
+                                  fontSize: 18.0,
+                                ),
+                              ),
+                              //TODO: implementing Registration
+                              onPressed: () async {
+                                await validateForm();
+                              },
+                            ),
                           ),
                         ),
+                        Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(14.0),
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.pop(context);
+                              },
+                              child: Text(
+                                'Already have an account',
+                                style: TextStyle(
+                                    color: white, fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 20.0,
+                        ),
+                        Center(
+                          child: Text(
+                            "Or sign up with",
+                            style: TextStyle(
+                                color: white,
+                                fontSize: 18.0,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10.0,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: <Widget>[
+                            MaterialButton(
+                              onPressed: () {},
+                              child: Image.asset(
+                                "images/facebook.png",
+                                width: 50,
+                              ),
+                            ),
+                            MaterialButton(
+                              onPressed: () async {
+                                FirebaseUser user = await _auth.googleSignIn();
+                                if (user != null) {
+                                  _usersServices.createUser({
+                                    "name": user.displayName,
+                                    "photo": user.photoUrl,
+                                    "email": user.email,
+                                    "userId": user.uid
+                                  });
+
+                                  changeScreenReplacement(
+                                      context, MyHomePage());
+                                }
+                              },
+                              child: Image.asset(
+                                "images/google.png",
+                                width: 50,
+                              ),
+                            )
+                          ],
+                        )
                       ],
-                    )
-                  ],
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -241,7 +260,7 @@ class _SignUpState extends State<SignUp> {
                 child: Container(
                   alignment: Alignment.center,
                   child: CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
+                    valueColor: AlwaysStoppedAnimation<Color>(black),
                   ),
                 ),
               ),

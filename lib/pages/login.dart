@@ -1,3 +1,4 @@
+import 'package:e_commerce/commons/common.dart';
 import 'package:e_commerce/pages/home.dart';
 import 'package:e_commerce/pages/sign_up.dart';
 import 'package:flutter/material.dart';
@@ -201,7 +202,7 @@ class _LoginState extends State<Login> {
                         style: TextStyle(
                             fontSize: 16.0,
                             fontWeight: FontWeight.w400,
-                            color: Colors.white),
+                            color: white),
                       ),
                     ),
                     Padding(
@@ -210,8 +211,8 @@ class _LoginState extends State<Login> {
                         width: double.infinity,
                         height: 50,
                         child: RaisedButton(
-                          color: Colors.black,
-                          textColor: Colors.white,
+                          color: black,
+                          textColor: white,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(15.0)),
                           child: Text(
@@ -254,19 +255,18 @@ class _LoginState extends State<Login> {
                             Text(
                               "Don\'t\ have an accout?",
                               style: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.white),
+                                  fontWeight: FontWeight.w700, color: white),
                             ),
                             Padding(padding: EdgeInsets.only(right: 8.0)),
                             RaisedButton(
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(15.0)),
-                              color: Colors.black,
+                              color: black,
                               child: Text(
                                 "SIGN UP",
                                 style: TextStyle(
                                     fontSize: 15.0,
-                                    color: Colors.white,
+                                    color: white,
                                     fontWeight: FontWeight.w500),
                               ),
                               onPressed: () {
@@ -281,34 +281,37 @@ class _LoginState extends State<Login> {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 30.0),
+
+                    Center(
                       child: Text(
                         "Other Sign in options",
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle(
+                            color: white,
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.bold),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Material(
-                        borderRadius: BorderRadius.circular(30.0),
-                        color: Colors.red,
-                        elevation: 0.0,
-                        child: MaterialButton(
+
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        MaterialButton(
+                          onPressed: () {},
+                          child: Image.asset(
+                            "images/facebook.png",
+                            width: 50,
+                          ),
+                        ),
+                        MaterialButton(
                           onPressed: () {
                             handleSignIn();
                           },
-                          minWidth: MediaQuery.of(context).size.width,
-                          child: Text(
-                            "Sign in with Google",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18.0),
+                          child: Image.asset(
+                            "images/google.png",
+                            width: 50,
                           ),
-                        ),
-                      ),
+                        )
+                      ],
                     ),
                   ],
                 ),
@@ -320,7 +323,7 @@ class _LoginState extends State<Login> {
                 child: Container(
                   alignment: Alignment.center,
                   child: CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
+                    valueColor: AlwaysStoppedAnimation<Color>(black),
                   ),
                 ),
               ),

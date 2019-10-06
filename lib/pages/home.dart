@@ -1,3 +1,5 @@
+import 'package:e_commerce/commons/common.dart';
+import 'package:e_commerce/pages/custom_ui/custom_input_field.dart';
 import 'package:e_commerce/pages/login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -13,12 +15,13 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  TextEditingController _searchTextController = TextEditingController();
   String money;
 
   @override
   Widget build(BuildContext context) {
     Widget imageCarousel = new Container(
-      height: 170.0,
+      height: 150.0,
       child: Carousel(
         boxFit: BoxFit.cover,
         images: [
@@ -42,7 +45,27 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         elevation: 0.0,
         backgroundColor: Colors.black,
-        title: Text('Store'),
+        title: Material(
+          borderRadius: BorderRadius.circular(10.0),
+          color: Colors.grey[50],
+          child: Padding(
+            padding: const EdgeInsets.all(0.0),
+            child: TextFormField(
+              controller: _searchTextController,
+              decoration: InputDecoration(
+                hintText: "Search...",
+                border: InputBorder.none,
+              ),
+              validator: (value) {
+                if (value.isEmpty) {
+                  return "The search field can not be emty";
+                }
+
+                return null;
+              },
+            ),
+          ),
+        ),
         actions: <Widget>[
           IconButton(
               icon: Icon(
