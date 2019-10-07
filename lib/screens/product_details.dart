@@ -1,4 +1,12 @@
+import 'package:e_commerce/db/Products.dart';
+import 'package:e_commerce/screens/cart.dart';
+import 'package:e_commerce/widget/cart_products.dart';
+import 'package:e_commerce/widget/custom_widget/custom_input_field.dart';
 import 'package:e_commerce/widget/common.dart';
+import 'package:e_commerce/widget/custom_widget/product_details_ui.dart';
+import 'package:e_commerce/widget/custom_widget/product_image.dart';
+import 'package:e_commerce/widget/products_card.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 class ProductDetails extends StatefulWidget {
@@ -19,332 +27,198 @@ class ProductDetails extends StatefulWidget {
   _ProductDetailsState createState() => _ProductDetailsState();
 }
 
-class _ProductDetailsState extends State<ProductDetails> {
+class _ProductDetailsState extends State<ProductDetails>
+    with SingleTickerProviderStateMixin {
+  TabController _tabController;
+  ScrollController _scrollController;
+
+  var listDetails = <String>[
+    "Name",
+    "Age",
+    "Name",
+    "Age",
+    "Name",
+    "Age",
+  ];
+
+  String dummyText =
+      "What is Lorem Ipsum? Lorem Ipsum nis simply dummy text of the pr"
+      "inting and typesetting industry. Lorem Ipsum has been the industry's' "
+      "standard dummy text ever since the 1500s, when an unknown printer took a"
+      " galley of type and scrambled it to make a type specimen book. It has su"
+      "rvived not only five centuries, but also the leap into electronic typese"
+      "tting, remaining essentially unchanged. It was popularised in the 1960s "
+      "with the release of Letraset sheets containing Lorem Ipsum passages, and"
+      " more recently with desktop publishing software like Aldus PageMaker "
+      "including versions of Lorem Ipsum. What is Lorem Ipsum? Lorem Ipsum "
+      "nis simply dummy text of the printing and typesetting industry. "
+      "Lorem Ipsum has been the industry's' standard dummy text ever since the"
+      " 1500s, when an unknown printer took a galley of type and scrambled it "
+      "to make a type specimen book. It has survived not only five centuries,";
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 2, vsync: this);
+    _scrollController = ScrollController();
+  }
+
+  @override
+  void dispose() {
+    // "Unmount" the controllers:
+    _tabController.dispose();
+    _scrollController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: black,
-      appBar: AppBar(
-        elevation: 0.0,
-        backgroundColor: Colors.black,
-        actions: <Widget>[
-          IconButton(
-              icon: Icon(
-                Icons.shopping_cart,
-                color: Colors.white,
-              ),
-              onPressed: () {}),
-          IconButton(
-              icon: Icon(
-                Icons.favorite,
-                color: Colors.white,
-              ),
-              onPressed: () {
-//                Navigator.push(
-//                  context,
-//                  MaterialPageRoute(
-//                    builder: (context) => Cart(),
-//                  ),
-//                );
-              }),
-        ],
-      ),
-      body: SafeArea(
-          child: Container(
-        color: Colors.black.withOpacity(0.9),
-        child: Column(
-          children: <Widget>[
-            Stack(
-              children: <Widget>[
-                Image.asset(
-                  widget.productPicture,
-                  fit: BoxFit.fill,
-                  width: double.infinity,
-                  height: 350.0,
-                ),
-                Align(
-                  alignment: Alignment.topCenter,
-                  child: Container(
-                      height: 100,
-                      decoration: BoxDecoration(
-                        // Box decoration takes a gradient
-                        gradient: LinearGradient(
-                          // Where the linear gradient begins and ends
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          // Add one stop for each color. Stops should increase from 0 to 1
-                          colors: [
-                            // Colors are easy thanks to Flutter's Colors class.
-                            /* Colors.black.withOpacity(0.7),
-                            Colors.black.withOpacity(0.5),
-                            Colors.black.withOpacity(0.07),
-                            Colors.black.withOpacity(0.05),
-                            Colors.black.withOpacity(0.025),*/
-                          ],
-                        ),
-                      ),
-                      child: Padding(
-                          padding: const EdgeInsets.only(top: 8.0),
-                          child: Container())),
-                ),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Container(
-                      height: 350,
-                      decoration: BoxDecoration(
-                        // Box decoration takes a gradient
-                        gradient: LinearGradient(
-                          // Where the linear gradient begins and ends
-                          begin: Alignment.bottomCenter,
-                          end: Alignment.topCenter,
-                          // Add one stop for each color. Stops should increase from 0 to 1
-                          colors: [
-                            // Colors are easy thanks to Flutter's Colors class.
-                            Colors.black.withOpacity(0.8),
-                            Colors.black.withOpacity(0.6),
-                            Colors.black.withOpacity(0.6),
-                            Colors.black.withOpacity(0.4),
-                            Colors.black.withOpacity(0.07),
-                            Colors.black.withOpacity(0.05),
-                            Colors.black.withOpacity(0.025),
-                          ],
-                        ),
-                      ),
-                      child: Padding(
-                          padding: const EdgeInsets.only(top: 8.0),
-                          child: Container())),
-                ),
-                Positioned(
-                    bottom: 0,
-                    child: Container(
-                      width: MediaQuery.of(context).size.width,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Text(
-                              widget.productName,
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w300,
-                                  fontSize: 20),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Text(
-                              "\$${widget.productPrice}",
-                              textAlign: TextAlign.end,
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 26,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                        ],
-                      ),
-                    )),
-              ],
-            ),
-            Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(20),
-                      topRight: Radius.circular(20),
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                          color: Colors.black,
-                          offset: Offset(2, 5),
-                          blurRadius: 10)
-                    ]),
-                child: Column(
+      body: NestedScrollView(
+        controller: _scrollController,
+        scrollDirection: Axis.vertical,
+        headerSliverBuilder: (BuildContext context, bool innerViewIsScrolled) {
+          return <Widget>[
+            SliverAppBar(
+              backgroundColor: white,
+              actions: <Widget>[
+                Row(
                   children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: Row(
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.all(4.0),
-                            child: Text(
-                              'Select Color: ',
-                              style: TextStyle(color: Colors.white),
-                            ),
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Cart(),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Container(
-                              width: 24,
-                              height: 24,
-                              decoration: BoxDecoration(
-                                  color: Colors.black,
-                                  borderRadius: BorderRadius.circular(15)),
-                              child: Padding(
-                                padding: const EdgeInsets.all(2),
-                                child: CircleAvatar(
-                                  backgroundColor: Colors.red,
-                                ),
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Container(
-                              width: 24,
-                              height: 24,
-                              decoration: BoxDecoration(
-                                  color: Colors.black,
-                                  borderRadius: BorderRadius.circular(15)),
-                              child: Padding(
-                                padding: const EdgeInsets.all(2),
-                                child: CircleAvatar(
-                                  backgroundColor: Colors.green,
-                                ),
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Container(
-                              width: 24,
-                              height: 24,
-                              decoration: BoxDecoration(
-                                  color: Colors.black,
-                                  borderRadius: BorderRadius.circular(15)),
-                              child: Padding(
-                                padding: const EdgeInsets.all(2),
-                                child: CircleAvatar(
-                                  backgroundColor: Colors.orange,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.all(4.0),
-                            child: Text('Select Size: ',
-                                style: TextStyle(color: Colors.white)),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Container(
-                              width: 24,
-                              height: 24,
-                              decoration: BoxDecoration(
-                                  color: Colors.black.withOpacity(0.8),
-                                  borderRadius: BorderRadius.circular(7)),
-                              child: Padding(
-                                padding: const EdgeInsets.all(2),
-                                child: Text(
-                                  'S',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 17),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Container(
-                              width: 24,
-                              height: 24,
-                              decoration: BoxDecoration(
-                                  color: Colors.black.withOpacity(0.8),
-                                  borderRadius: BorderRadius.circular(7)),
-                              child: Padding(
-                                padding: const EdgeInsets.all(2),
-                                child: Text(
-                                  'M',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 17),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Container(
-                              width: 24,
-                              height: 24,
-                              decoration: BoxDecoration(
-                                  color: Colors.black.withOpacity(0.8),
-                                  borderRadius: BorderRadius.circular(7)),
-                              child: Padding(
-                                padding: const EdgeInsets.all(2),
-                                child: Text(
-                                  'L',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 17),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Container(
-                              height: 24,
-                              decoration: BoxDecoration(
-                                  color: Colors.black.withOpacity(0.8),
-                                  borderRadius: BorderRadius.circular(7)),
-                              child: Padding(
-                                padding: const EdgeInsets.all(2),
-                                child: Text(
-                                  'XL',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 17),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Expanded(
+                        );
+                      },
                       child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                            'Description:\nLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry standard dummy text ever since the 1500s  Lorem Ipsum has been the industry standard dummy text ever since the 1500s ',
-                            style: TextStyle(color: Colors.white)),
+                        padding: const EdgeInsets.all(10.0),
+                        child: Icon(Icons.shopping_cart),
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(9),
-                      child: Material(
-                          borderRadius: BorderRadius.circular(15.0),
-                          color: Colors.white,
-                          elevation: 0.0,
-                          child: MaterialButton(
-                            onPressed: () {},
-                            minWidth: MediaQuery.of(context).size.width,
-                            child: Text(
-                              "Buy now",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 20.0),
-                            ),
-                          )),
+                      padding:
+                          const EdgeInsets.fromLTRB(10.0, 10.0, 18.0, 10.0),
+                      child: Icon(Icons.share),
                     ),
                   ],
                 ),
+              ],
+              iconTheme: IconTheme.of(context),
+              flexibleSpace: FlexibleSpaceBar(
+                collapseMode: CollapseMode.pin,
+                background: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    ProductImage(widget.productPicture),
+//                    RecipeImage(widget.recipe.imageURL),
+//                    RecipeTitle(widget.recipe, 25.0),
+                  ],
+                ),
+              ),
+              expandedHeight: 380.0,
+              pinned: true,
+              floating: false,
+              elevation: 2.0,
+              forceElevated: false,
+              bottom: TabBar(
+                tabs: <Widget>[
+                  Tab(
+                    child: Text(
+                      widget.productName.toString().toUpperCase(),
+                      style:
+                          TextStyle(color: black, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  Tab(
+                    child: Text(
+                      "PRODUCT DETAILS",
+                      style:
+                          TextStyle(color: black, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ],
+                controller: _tabController,
               ),
             )
-          ],
+          ];
+        },
+        body: Container(
+          color: black,
+          child: TabBarView(
+            children: <Widget>[
+              ProductDetailsUi(),
+              Text(
+                dummyText,
+                style: TextStyle(color: white, fontSize: 20.0),
+              ),
+
+//            IngredientsView(widget.recipe.ingredients),
+//            PreparationView(widget.recipe.preparation),
+            ],
+            controller: _tabController,
+          ),
         ),
-      )),
+      ),
+      bottomNavigationBar: Container(
+        color: Colors.black,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            children: <Widget>[
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    height: 44,
+                    width: 300.0,
+                    child: RaisedButton(
+                      color: white,
+                      textColor: black,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(2.0)),
+                      child: Text(
+                        'ADD TO BAG',
+                        style: TextStyle(
+                          fontSize: 20.0,
+                        ),
+                      ),
+                      onPressed: () async {},
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: Card(
+                    elevation: 10,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20)),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Icon(Icons.favorite_border),
+                    ),
+                  )),
+            ],
+          ),
+        ),
+      ),
+
+//      floatingActionButton: FloatingActionButton(
+//        onPressed: () {
+////          updateFavorites(appState.user.uid, widget.recipe.id).then((result) {
+////            // Toggle "in favorites" if the result was successful.
+////            if (result) _toggleInFavorites();
+////          });
+//        },
+//        child: Icon(
+//          _inFavorites ? Icons.favorite : Icons.favorite_border,
+//          color: Theme.of(context).iconTheme.color,
+//        ),
+//        elevation: 2.0,
+//        backgroundColor: Colors.white,
+//      ),
     );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:e_commerce/widget/common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -75,18 +76,21 @@ class _CartProductsState extends State<CartProducts> {
   ];
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemBuilder: (context, index) {
-        return SingleCartProduct(
-          cartProductName: productsOnTheCart[index]["name"],
-          cartProductPicture: productsOnTheCart[index]["pictures"],
-          cartProductPrice: productsOnTheCart[index]["price"],
-          cartProductSize: productsOnTheCart[index]["size"],
-          cartProductColor: productsOnTheCart[index]["color"],
-          cartProductQuantity: productsOnTheCart[index]["quantity"],
-        );
-      },
-      itemCount: productsOnTheCart.length,
+    return Container(
+      color: black,
+      child: ListView.builder(
+        itemBuilder: (context, index) {
+          return SingleCartProduct(
+            cartProductName: productsOnTheCart[index]["name"],
+            cartProductPicture: productsOnTheCart[index]["pictures"],
+            cartProductPrice: productsOnTheCart[index]["price"],
+            cartProductSize: productsOnTheCart[index]["size"],
+            cartProductColor: productsOnTheCart[index]["color"],
+            cartProductQuantity: productsOnTheCart[index]["quantity"],
+          );
+        },
+        itemCount: productsOnTheCart.length,
+      ),
     );
   }
 }

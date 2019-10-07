@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_commerce/db/auth.dart';
 
-import 'package:e_commerce/screens/custom_ui/custom_input_field.dart';
+import 'package:e_commerce/widget/custom_widget/custom_input_field.dart';
 import 'package:e_commerce/screens/home.dart';
 import 'package:e_commerce/widget/common.dart';
 import 'package:firebase_auth/firebase_auth.dart';

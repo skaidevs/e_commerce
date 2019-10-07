@@ -1,6 +1,7 @@
 import 'package:e_commerce/screens/product_details.dart';
 import 'package:e_commerce/widget/common.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class ProductCard extends StatelessWidget {
   final String name;
@@ -31,6 +32,70 @@ class ProductCard extends StatelessWidget {
           ),
         );
       },
+      child: Container(
+        child: Row(
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Image.asset(
+                  picture,
+                  height: 90,
+                  width: 90,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            SizedBox(
+              width: 10,
+            ),
+            RichText(
+              text: TextSpan(children: [
+                TextSpan(
+                  text: '$name \n',
+                  style: TextStyle(fontSize: 20),
+                ),
+                TextSpan(
+                  text: 'by: $brand \n',
+                  style: TextStyle(fontSize: 16, color: Colors.grey),
+                ),
+                TextSpan(
+                  text: '\$${price.toString()} \t',
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                ),
+                TextSpan(
+                  text: 'ON SALE ',
+                  style: TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.w600, color: black),
+                ),
+              ], style: TextStyle(color: Colors.black)),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class ProductCardDetail extends StatelessWidget {
+  final String name;
+  final double price;
+  final String picture;
+  final String brand;
+  final bool onSale;
+
+  ProductCardDetail(
+      {@required this.name,
+      @required this.price,
+      @required this.picture,
+      @required this.brand,
+      @required this.onSale});
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () {},
       child: Container(
         child: Row(
           children: <Widget>[

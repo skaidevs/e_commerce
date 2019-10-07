@@ -1,4 +1,5 @@
 import 'package:e_commerce/db/Products.dart';
+import 'package:e_commerce/screens/cart.dart';
 import 'package:e_commerce/widget/common.dart';
 import 'package:e_commerce/widget/featured_products.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +17,7 @@ class _HomePageState extends State<MyHomePage> {
         appBar: AppBar(
           elevation: 0.0,
           backgroundColor: Colors.black,
+          actionsIconTheme: IconThemeData.fallback().copyWith(color: black),
           actions: <Widget>[
             IconButton(
                 icon: Icon(
@@ -29,12 +31,12 @@ class _HomePageState extends State<MyHomePage> {
                   color: Colors.white,
                 ),
                 onPressed: () {
-//                Navigator.push(
-//                  context,
-//                  MaterialPageRoute(
-//                    builder: (context) => Cart(),
-//                  ),
-//                );
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Cart(),
+                    ),
+                  );
                 })
           ],
         ),

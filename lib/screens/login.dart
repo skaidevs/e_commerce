@@ -8,7 +8,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import 'custom_ui/custom_input_field.dart';
+import '../widget/custom_widget/custom_input_field.dart';
 
 class Login extends StatefulWidget {
   @override
