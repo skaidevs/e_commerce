@@ -1,13 +1,17 @@
-import 'package:e_commerce/screens/product_details.dart';
+import 'package:e_commerce/screens/details/product_details.dart';
 import 'package:flutter/material.dart';
 
 class FeaturedCard extends StatelessWidget {
   final String name;
   final double price;
   final String picture;
+  final String brand;
 
   FeaturedCard(
-      {@required this.name, @required this.price, @required this.picture});
+      {@required this.name,
+      @required this.price,
+      @required this.picture,
+      @required this.brand});
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +25,7 @@ class FeaturedCard extends StatelessWidget {
                 productName: name,
                 productPrice: price,
                 productPicture: picture,
+                productBrand: brand,
               ),
             ),
           );
@@ -77,17 +82,26 @@ class FeaturedCard extends StatelessWidget {
                 Align(
                   alignment: Alignment.bottomLeft,
                   child: Padding(
-                      padding: const EdgeInsets.only(left: 8.0),
-                      child: RichText(
-                          text: TextSpan(children: [
+                    padding: const EdgeInsets.only(left: 8.0),
+                    child: RichText(
+                      text: TextSpan(children: [
                         TextSpan(
-                            text: '$name \n', style: TextStyle(fontSize: 18)),
+                          text: '$name \n',
+                          style: TextStyle(fontSize: 18),
+                        ),
                         TextSpan(
-                            text: '\$${price.toString()} \n',
-                            style: TextStyle(
-                                fontSize: 22, fontWeight: FontWeight.bold)),
-                      ]))),
-                )
+                          text: '$brand \n',
+                          style: TextStyle(fontSize: 18),
+                        ),
+                        TextSpan(
+                          text: '\$${price.toString()} \n',
+                          style: TextStyle(
+                              fontSize: 22, fontWeight: FontWeight.bold),
+                        ),
+                      ]),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),

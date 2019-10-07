@@ -1,7 +1,9 @@
+import 'package:e_commerce/screens/details/featured_details_card.dart';
+import 'package:e_commerce/screens/details/product_details.dart';
 import 'package:e_commerce/widget/common.dart';
-import 'package:e_commerce/widget/featured_products.dart';
-import 'package:e_commerce/widget/products_card.dart';
-import 'package:e_commerce/widget/search.dart';
+import 'package:e_commerce/screens/home/custom_widget/featured_products.dart';
+import 'package:e_commerce/screens/home/custom_widget/products_card.dart';
+import 'package:e_commerce/screens/home/custom_widget/search.dart';
 import 'package:flutter/material.dart';
 
 class Products extends StatefulWidget {
@@ -123,7 +125,7 @@ class _ProductsState extends State<Products> {
                 reverse: true,
                 itemBuilder: (BuildContext context, int index) => Card(
                   child: Center(
-                    child: ProductCard(
+                    child: ProductCardDetail(
                         name: productList[index]['name'],
                         price: productList[index]['price'],
                         picture: productList[index]['pictures'],

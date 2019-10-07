@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_commerce/db/auth.dart';
 
-import 'package:e_commerce/widget/custom_widget/custom_input_field.dart';
-import 'package:e_commerce/screens/home.dart';
+import 'package:e_commerce/screens/login_sign_up/custom_widget/custom_input_field.dart';
+import 'package:e_commerce/screens/home/home.dart';
 import 'package:e_commerce/widget/common.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';

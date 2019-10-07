@@ -1,11 +1,11 @@
-import 'package:e_commerce/db/Products.dart';
-import 'package:e_commerce/screens/cart.dart';
-import 'package:e_commerce/widget/cart_products.dart';
-import 'package:e_commerce/widget/custom_widget/custom_input_field.dart';
+import 'package:e_commerce/screens/home/Products.dart';
+import 'package:e_commerce/screens/cart/cart.dart';
+import 'package:e_commerce/screens/cart/cart_products.dart';
+import 'package:e_commerce/screens/login_sign_up/custom_widget/custom_input_field.dart';
 import 'package:e_commerce/widget/common.dart';
-import 'package:e_commerce/widget/custom_widget/product_details_ui.dart';
-import 'package:e_commerce/widget/custom_widget/product_image.dart';
-import 'package:e_commerce/widget/products_card.dart';
+import 'package:e_commerce/screens/details/product_details_ui.dart';
+import 'package:e_commerce/widget/product_image.dart';
+import 'package:e_commerce/screens/home/custom_widget/products_card.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
@@ -126,7 +126,7 @@ class _ProductDetailsState extends State<ProductDetails>
                 tabs: <Widget>[
                   Tab(
                     child: Text(
-                      widget.productName.toString().toUpperCase(),
+                      "SELECT",
                       style:
                           TextStyle(color: black, fontWeight: FontWeight.bold),
                     ),
@@ -148,7 +148,8 @@ class _ProductDetailsState extends State<ProductDetails>
           color: black,
           child: TabBarView(
             children: <Widget>[
-              ProductDetailsUi(),
+              ProductDetailsScreen(widget.productName, widget.productPrice,
+                  widget.productBrand, false),
               Text(
                 dummyText,
                 style: TextStyle(color: white, fontSize: 20.0),

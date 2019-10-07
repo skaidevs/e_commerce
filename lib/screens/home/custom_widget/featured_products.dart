@@ -13,21 +13,25 @@ class _FeaturedProductsState extends State<FeaturedProducts> {
       "name": "Blazer",
       "pictures": "images/products/blazer2.jpg",
       "price": 178.5,
+      "brand": "Offwite",
     },
     {
       "name": "Jimmy Choo Hill",
       "pictures": "images/products/shoe1.jpg",
       "price": 987.1,
+      "brand": "Nike",
     },
     {
       "name": "Black dress",
       "pictures": "images/products/dress1.jpg",
       "price": 315.3,
+      "brand": "Adidas",
     },
     {
       "name": "Kaki joggers",
       "pictures": "images/products/pants2.jpg",
       "price": 345.0,
+      "brand": "North Face",
     },
   ];
 
@@ -40,6 +44,7 @@ class _FeaturedProductsState extends State<FeaturedProducts> {
           itemCount: featuredProductList.length,
           itemBuilder: (BuildContext context, index) {
             return FeaturedCard(
+              brand: featuredProductList[index]['brand'],
               name: featuredProductList[index]['name'],
               price: featuredProductList[index]['price'],
               picture: featuredProductList[index]['pictures'],

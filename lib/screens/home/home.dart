@@ -1,9 +1,11 @@
-import 'package:e_commerce/db/Products.dart';
-import 'package:e_commerce/screens/cart.dart';
+import 'package:e_commerce/screens/home/Products.dart';
+import 'package:e_commerce/screens/cart/cart.dart';
+import 'package:e_commerce/screens/login_sign_up/login.dart';
 import 'package:e_commerce/widget/common.dart';
-import 'package:e_commerce/widget/featured_products.dart';
+import 'package:e_commerce/screens/home/custom_widget/featured_products.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:e_commerce/widget/search.dart';
+import 'package:e_commerce/screens/home/custom_widget/search.dart';
 
 class MyHomePage extends StatefulWidget {
   @override
@@ -86,12 +88,12 @@ class _HomePageState extends State<MyHomePage> {
 
               InkWell(
                 onTap: () {
-//                Navigator.push(
-//                  context,
-//                  MaterialPageRoute(
-//                    builder: (context) => Cart(),
-//                  ),
-//                );
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Cart(),
+                    ),
+                  );
                 },
                 child: ListTile(
                   title: Text('Shopping Cart'),
@@ -129,14 +131,14 @@ class _HomePageState extends State<MyHomePage> {
 
               InkWell(
                 onTap: () {
-//                FirebaseAuth.instance.signOut().then((value) {
-//                  Navigator.pushReplacement(
-//                    context,
-//                    MaterialPageRoute(
-//                      builder: (context) => Login(),
-//                    ),
-//                  );
-//                });
+                  FirebaseAuth.instance.signOut().then((value) {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Login(),
+                      ),
+                    );
+                  });
                 },
                 child: ListTile(
                   title: Text('Log out'),

@@ -1,15 +1,20 @@
+import 'package:e_commerce/screens/details/featured_details_card.dart';
 import 'package:e_commerce/widget/common.dart';
-import 'package:e_commerce/widget/featured_products.dart';
-import 'package:e_commerce/widget/products_card.dart';
-import 'package:e_commerce/widget/search.dart';
 import 'package:flutter/material.dart';
 
-class ProductDetailsUi extends StatefulWidget {
+class ProductDetailsScreen extends StatefulWidget {
+  final String name;
+  final double price;
+  final String brand;
+  final bool onSale;
+
+  ProductDetailsScreen(this.name, this.price, this.brand, this.onSale);
+
   @override
-  _ProductDetailsUiState createState() => _ProductDetailsUiState();
+  _ProductDetailsScreenState createState() => _ProductDetailsScreenState();
 }
 
-class _ProductDetailsUiState extends State<ProductDetailsUi> {
+class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   var productList = [
     {
       "name": "Jimmy Choo Hill",
@@ -65,7 +70,7 @@ class _ProductDetailsUiState extends State<ProductDetailsUi> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                productList[0]['name'],
+                widget.name,
                 style: TextStyle(
                     fontSize: 28,
                     color: Colors.white,
@@ -76,7 +81,7 @@ class _ProductDetailsUiState extends State<ProductDetailsUi> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                "\$${productList[0]['price']}",
+                widget.price.toString(),
                 style: TextStyle(
                     fontSize: 30,
                     color: Colors.white,
@@ -246,15 +251,12 @@ class _ProductDetailsUiState extends State<ProductDetailsUi> {
                 scrollDirection: Axis.horizontal,
                 itemCount: productList.length,
                 reverse: true,
-                itemBuilder: (BuildContext context, int index) => Card(
-                  child: Center(
-                    child: ProductCardDetail(
-                        name: productList[index]['name'],
-                        price: productList[index]['price'],
-                        picture: productList[index]['pictures'],
-                        brand: productList[index]['brand'],
-                        onSale: productList[index]["on_sale"]),
-                  ),
+                itemBuilder: (BuildContext context, int index) =>
+                    FeaturedDetailsCard(
+                  name: productList[index]['name'],
+                  price: productList[index]['price'],
+                  picture: productList[index]['pictures'],
+                  brand: productList[index]['brand'],
                 ),
               ),
             ),
@@ -301,3 +303,5 @@ class _ProductDetailsUiState extends State<ProductDetailsUi> {
     );
   }
 }
+
+///
