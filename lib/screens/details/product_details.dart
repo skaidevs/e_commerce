@@ -3,7 +3,7 @@ import 'package:e_commerce/screens/cart/cart.dart';
 import 'package:e_commerce/screens/cart/cart_products.dart';
 import 'package:e_commerce/screens/login_sign_up/custom_widget/custom_input_field.dart';
 import 'package:e_commerce/widget/common.dart';
-import 'package:e_commerce/screens/details/product_details_ui.dart';
+import 'package:e_commerce/screens/details/details_section.dart';
 import 'package:e_commerce/widget/product_image.dart';
 import 'package:e_commerce/screens/home/custom_widget/products_card.dart';
 import 'package:flutter/gestures.dart';

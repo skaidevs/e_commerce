@@ -1,3 +1,4 @@
+import 'package:e_commerce/widget/common.dart';
 import 'package:flutter/material.dart';
 
 import 'featured_card.dart';
@@ -38,6 +39,7 @@ class _FeaturedProductsState extends State<FeaturedProducts> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      color: Colors.white10,
       height: 230,
       child: ListView.builder(
           scrollDirection: Axis.horizontal,

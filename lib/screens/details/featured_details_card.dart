@@ -21,16 +21,16 @@ class FeaturedDetailsCard extends StatelessWidget {
         padding: EdgeInsets.all(4),
         child: InkWell(
           onTap: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => ProductDetails(
-                  productName: name,
-                  productPrice: price,
-                  productPicture: picture,
-                  productBrand: brand,
-                ),
-              ),
-            );
+//            Navigator.of(context).push(
+//              MaterialPageRoute(
+//                builder: (context) => ProductDetails(
+//                  productName: name,
+//                  productPrice: price,
+//                  productPicture: picture,
+//                  productBrand: brand,
+//                ),
+//              ),
+//            );
           },
           child: Container(
             decoration: BoxDecoration(
@@ -176,6 +176,60 @@ class ProductCardDetail extends StatelessWidget {
             )
           ],
         ),
+      ),
+    );
+  }
+}
+
+class SingleProduct extends StatelessWidget {
+  final productName;
+  final productPicture;
+  final productBrand;
+  final productPrice;
+  SingleProduct(
+      {this.productName,
+      this.productPicture,
+      this.productBrand,
+      this.productPrice});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Card(
+        child: Hero(
+            tag: productName,
+            child: Material(
+              child: InkWell(
+                onTap: () {},
+                child: GridTile(
+                  footer: Container(
+                    color: Colors.white70,
+                    child: ListTile(
+                      leading: Text(
+                        productName,
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      title: Text(
+                        "\$$productPrice",
+                        style: TextStyle(
+                            color: Colors.black, fontWeight: FontWeight.w800),
+                      ),
+                      subtitle: Text(
+                        "\$$productBrand",
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            decoration: TextDecoration.lineThrough),
+                      ),
+                    ),
+                  ),
+                  child: Image.asset(
+                    productPicture,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+            )),
       ),
     );
   }
