@@ -1,3 +1,4 @@
+import 'package:e_commerce/provider/user_provider.dart';
 import 'package:e_commerce/screens/home/Products.dart';
 import 'package:e_commerce/screens/cart/cart.dart';
 import 'package:e_commerce/screens/login_sign_up/login.dart';
@@ -6,6 +7,7 @@ import 'package:e_commerce/screens/home/custom_widget/featured_products.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:e_commerce/screens/home/custom_widget/search.dart';
+import 'package:provider/provider.dart';
 
 class MyHomePage extends StatefulWidget {
   @override
@@ -15,6 +17,8 @@ class MyHomePage extends StatefulWidget {
 class _HomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<UserProvider>(context);
+
     return Scaffold(
         appBar: AppBar(
           elevation: 0.0,
@@ -131,14 +135,7 @@ class _HomePageState extends State<MyHomePage> {
 
               InkWell(
                 onTap: () {
-                  FirebaseAuth.instance.signOut().then((value) {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => Login(),
-                      ),
-                    );
-                  });
+                  user.signOut();
                 },
                 child: ListTile(
                   title: Text('Log out'),
