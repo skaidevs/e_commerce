@@ -1,3 +1,4 @@
+/*
 import 'package:e_commerce/screens/details/featured_details_card.dart';
 import 'package:e_commerce/screens/details/product_details.dart';
 import 'package:e_commerce/widget/common.dart';
@@ -84,14 +85,15 @@ class _ProductsState extends State<Products> {
                 Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: Container(
-                      alignment: Alignment.centerLeft,
-                      child: new Text(
-                        'Featured products',
-                        style: TextStyle(
-                            fontSize: 20.0,
-                            fontWeight: FontWeight.w500,
-                            color: white),
-                      )),
+                    alignment: Alignment.centerLeft,
+                    child: new Text(
+                      'Featured products',
+                      style: TextStyle(
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.w500,
+                          color: white),
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -103,14 +105,15 @@ class _ProductsState extends State<Products> {
                 Padding(
                   padding: const EdgeInsets.all(14.0),
                   child: Container(
-                      alignment: Alignment.centerLeft,
-                      child: new Text(
-                        'Recent products',
-                        style: TextStyle(
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.w500,
-                            color: white),
-                      )),
+                    alignment: Alignment.centerLeft,
+                    child: new Text(
+                      'Recent products',
+                      style: TextStyle(
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.w500,
+                          color: white),
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -159,3 +162,4 @@ class _ProductsState extends State<Products> {
     );
   }
 }
+*/

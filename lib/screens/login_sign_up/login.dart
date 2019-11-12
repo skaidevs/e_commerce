@@ -1,5 +1,4 @@
 import 'package:e_commerce/provider/user_provider.dart';
-import 'package:e_commerce/screens/home/home.dart';
 import 'package:e_commerce/screens/login_sign_up/sign_up.dart';
 import 'package:e_commerce/widget/common.dart';
 import 'package:e_commerce/widget/loading.dart';

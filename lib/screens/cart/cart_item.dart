@@ -1,119 +1,110 @@
+import 'package:e_commerce/provider/cart.dart';
 import 'package:e_commerce/widget/common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:provider/provider.dart';
 
-class CartProducts extends StatefulWidget {
-  @override
-  _CartProductsState createState() => _CartProductsState();
-}
+class CartProductItem extends StatelessWidget {
+  final String id;
+  final double price;
+  final String imageUrl;
+  final int quantity;
+  final String title;
 
-class _CartProductsState extends State<CartProducts> {
-  var productsOnTheCart = [
-    {
-      "name": "Blue dress",
-      "pictures": "images/products/dress2.jpg",
-      "price": "110",
-      "size": "M",
-      "color": "Blue",
-      "quantity": 1,
-    },
-    {
-      "name": "Jimmy Choo Hill",
-      "pictures": "images/products/hills1.jpg",
-      "price": "70",
-      "size": "39",
-      "color": "Black",
-      "quantity": 1,
-    },
-    {
-      "name": "Joggers",
-      "pictures": "images/products/pants1.jpg",
-      "price": "67",
-      "size": "XL",
-      "color": "Black",
-      "quantity": 3,
-    },
-    {
-      "name": "Adidas",
-      "pictures": "images/products/shoe1.jpg",
-      "price": "210",
-      "size": "12UK",
-      "color": "Grey",
-      "quantity": 1,
-    },
-    {
-      "name": "Kaki pants",
-      "pictures": "images/products/pants2.jpg",
-      "price": "107",
-      "size": "34W/L",
-      "color": "Kaki Green",
-      "quantity": 3,
-    },
-    {
-      "name": "Black dress",
-      "pictures": "images/products/dress1.jpg",
-      "price": "50",
-      "size": "S",
-      "color": "Black",
-      "quantity": 2,
-    },
-    {
-      "name": "Tommy Hill",
-      "pictures": "images/products/hills2.jpg",
-      "price": "70",
-      "size": "39",
-      "color": "Red & Black",
-      "quantity": 1,
-    },
-    {
-      "name": "Blazer",
-      "pictures": "images/products/blazer2.jpg",
-      "price": "110",
-      "size": "M",
-      "color": "Black",
-      "quantity": 2,
-    },
-  ];
+  CartProductItem({
+    this.id,
+    this.price,
+    this.imageUrl,
+    this.quantity,
+    this.title,
+  });
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: black,
-      child: ListView.builder(
-        itemBuilder: (context, index) {
-          return SingleCartProduct(
-            cartProductName: productsOnTheCart[index]["name"],
-            cartProductPicture: productsOnTheCart[index]["pictures"],
-            cartProductPrice: productsOnTheCart[index]["price"],
-            cartProductSize: productsOnTheCart[index]["size"],
-            cartProductColor: productsOnTheCart[index]["color"],
-            cartProductQuantity: productsOnTheCart[index]["quantity"],
-          );
-        },
-        itemCount: productsOnTheCart.length,
+    return Card(
+      margin: EdgeInsets.symmetric(horizontal: 15.0, vertical: 4.0),
+      child: Padding(
+        padding: EdgeInsets.all(8.0),
+        child: ListTile(
+          leading: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              width: 100.0,
+              height: 110.0,
+              child: Image.network(
+                imageUrl,
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          title: Text(title),
+          subtitle: Text('Total: \$${(price * quantity)}'),
+          trailing: Text('$quantity x'),
+        ),
       ),
     );
   }
 }
 
 class SingleCartProduct extends StatelessWidget {
-  final cartProductName;
-  final cartProductPicture;
-  final cartProductPrice;
-  final cartProductSize;
-  final cartProductColor;
-  final cartProductQuantity;
+  final String id;
+  final String productID;
+  final double price;
+  final String imageUrl;
+  final int quantity;
+  final String title;
 
-  SingleCartProduct(
-      {this.cartProductName,
-      this.cartProductPicture,
-      this.cartProductPrice,
-      this.cartProductSize,
-      this.cartProductColor,
-      this.cartProductQuantity});
+  SingleCartProduct({
+    this.id,
+    this.productID,
+    this.price,
+    this.imageUrl,
+    this.quantity,
+    this.title,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Dismissible(
+      key: ValueKey(id),
+      direction: DismissDirection.endToStart,
+      background: Container(
+        color: Theme.of(context).errorColor,
+        child: Icon(
+          Icons.delete,
+          color: Colors.white,
+          size: 40.0,
+        ),
+        alignment: Alignment.centerRight,
+        padding: EdgeInsets.only(right: 20.0),
+        margin: EdgeInsets.symmetric(horizontal: 8.0, vertical: 2.0),
+      ),
+      confirmDismiss: (direction) {
+        return showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            actions: <Widget>[
+              FlatButton(
+                onPressed: () {
+                  Navigator.of(context).pop(false);
+                },
+                child: Text('CANCEL'),
+              ),
+              FlatButton(
+                onPressed: () {
+                  Navigator.of(context).pop(true);
+                },
+                child: Text('DELETE'),
+              ),
+            ],
+            title: Text('Are you sure?'),
+            content: Text('Do you want to delete the item from the cart?'),
+          ),
+        );
+      },
+      onDismissed: (direction) {
+        Provider.of<Cart>(context, listen: false).removeItem(productID);
+      },
       child: Card(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -123,8 +114,8 @@ class SingleCartProduct extends StatelessWidget {
               child: Container(
                 width: 80.0,
                 height: 80.0,
-                child: Image.asset(
-                  cartProductPicture,
+                child: Image.network(
+                  imageUrl,
                   fit: BoxFit.fill,
                 ),
               ),
@@ -136,7 +127,7 @@ class SingleCartProduct extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      cartProductName,
+                      title,
                       style: TextStyle(
                           fontWeight: FontWeight.bold, fontSize: 16.0),
                     ),
@@ -147,7 +138,7 @@ class SingleCartProduct extends StatelessWidget {
                       children: <Widget>[
                         Text("Size: "),
                         Text(
-                          cartProductSize,
+                          "none",
                           style: TextStyle(fontWeight: FontWeight.w500),
                         )
                       ],
@@ -159,7 +150,7 @@ class SingleCartProduct extends StatelessWidget {
                       children: <Widget>[
                         Text("Color: "),
                         Text(
-                          cartProductColor,
+                          'none',
                           style: TextStyle(fontWeight: FontWeight.w500),
                         )
                       ],
@@ -168,7 +159,7 @@ class SingleCartProduct extends StatelessWidget {
                       height: 8.0,
                     ),
                     Text(
-                      "\$$cartProductPrice",
+                      '\$${(price * quantity)}',
                       style: TextStyle(
                           fontSize: 16.0, fontWeight: FontWeight.bold),
                     ),
@@ -182,7 +173,7 @@ class SingleCartProduct extends StatelessWidget {
                 children: <Widget>[
                   IconButton(icon: Icon(Icons.arrow_drop_up), onPressed: () {}),
                   Text(
-                    "$cartProductQuantity",
+                    '$quantity',
                     style: TextStyle(fontWeight: FontWeight.w600),
                   ),
                   IconButton(

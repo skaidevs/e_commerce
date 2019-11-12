@@ -1,7 +1,15 @@
+import 'package:e_commerce/provider/orders.dart';
+import 'package:e_commerce/provider/products_provider.dart';
 import 'package:e_commerce/provider/user_provider.dart';
-import 'package:e_commerce/screens/home/home.dart';
+import 'package:e_commerce/provider/cart.dart';
+import 'package:e_commerce/screens/cart/cart_screen.dart';
+import 'package:e_commerce/screens/details/product_detail_screen_2.dart';
+import 'package:e_commerce/screens/home/ProductsOverviewScreen.dart';
 import 'package:e_commerce/screens/login_sign_up/login.dart';
-import 'package:e_commerce/screens/login_sign_up/sign_up.dart';
+import 'package:e_commerce/screens/details/product_detail_screen.dart';
+import 'package:e_commerce/screens/managing_user_products/edit_product_screen.dart';
+import 'package:e_commerce/screens/managing_user_products/user_products_screen.dart';
+import 'package:e_commerce/screens/orders/orders_screen.dart';
 import 'package:e_commerce/widget/splash.dart';
 import 'package:e_commerce/widget/common.dart';
 import 'package:flutter/material.dart';
@@ -14,12 +22,38 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      builder: (_) => UserProvider.initialize(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider.value(
+          value: Products(),
+        ),
+        ChangeNotifierProvider.value(
+          value: Cart(),
+        ),
+        ChangeNotifierProvider.value(
+          value: Orders(),
+        ),
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(primaryColor: black, unselectedWidgetColor: white),
-        home: ScreensController(),
+        theme: ThemeData(
+            appBarTheme: AppBarTheme(
+              actionsIconTheme: IconThemeData(color: Colors.green),
+            ),
+            backgroundColor: black,
+            primaryColor: black,
+            primarySwatch: Colors.green,
+//            unselectedWidgetColor: white,
+            fontFamily: 'Lato'),
+        home: ProductOverviewScreen(),
+        routes: {
+          ProductDetailScreen.routeName: (context) => ProductDetailScreen(),
+          ProductDetailScreen2.routeName: (context) => ProductDetailScreen2(),
+          CartScreen.routeName: (context) => CartScreen(),
+          OrdersScreen.routeName: (context) => OrdersScreen(),
+          UserProductsScreen.routeName: (context) => UserProductsScreen(),
+          EditProductScreen.routeName: (context) => EditProductScreen(),
+        },
       ),
     );
   }
@@ -49,7 +83,7 @@ class ScreensController extends StatelessWidget {
       case Status.Authenticating:
         return Login();
       case Status.Authenticated:
-        return MyHomePage();
+        return ProductOverviewScreen();
       default:
         return Login();
     }

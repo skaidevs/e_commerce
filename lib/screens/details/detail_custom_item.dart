@@ -1,5 +1,13 @@
+import 'package:e_commerce/provider/product.dart';
+import 'package:e_commerce/screens/details/product_detail_screen_2.dart';
 import 'package:e_commerce/widget/common.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+String dummyText =
+    "What is Lorem Ipsum? Lorem Ipsum nis simply dummy text of the pr"
+    "inting and typesetting industry. Lorem Ipsum has been the industry's' "
+    "to make a type specimen book. It has survived not only five centuries.";
 
 //Shipping Information
 class CustomShippingInfo extends StatelessWidget {
@@ -13,14 +21,15 @@ class CustomShippingInfo extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: Container(
-                  alignment: Alignment.centerLeft,
-                  child: new Text(
-                    'Free Shipping',
-                    style: TextStyle(
-                        fontSize: 18.0,
-                        fontWeight: FontWeight.w500,
-                        color: white),
-                  )),
+                alignment: Alignment.centerLeft,
+                child: new Text(
+                  'Free Shipping',
+                  style: TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.w500,
+                      color: white),
+                ),
+              ),
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 0.0),
@@ -30,14 +39,63 @@ class CustomShippingInfo extends StatelessWidget {
                     TextSpan(
                       text:
                           'To Nigeria via E-commerce standers Shipping Estimated Delivery: ',
-                      style: TextStyle(fontSize: 16, color: Colors.grey),
+                      style: TextStyle(fontSize: 15, color: Colors.grey),
                     ),
                     TextSpan(
                       text: '9-10days',
-                      style: TextStyle(fontSize: 16.0),
+                      style: TextStyle(fontSize: 15.0),
                     ),
                   ],
-                  style: TextStyle(color: Colors.blue),
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class Description extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        child: Column(
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Container(
+                alignment: Alignment.centerLeft,
+                child: new Text(
+                  'Item Description',
+                  style: TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.w500,
+                      color: white),
+                ),
+              ),
+            ),
+            Container(
+              child: Card(
+                color: Colors.white10,
+                child: Container(
+                  padding: EdgeInsets.all(8.0),
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 0.0),
+                    child: RichText(
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text: dummyText,
+                            style: TextStyle(fontSize: 16, color: Colors.grey),
+                          ),
+                        ],
+                        style: TextStyle(color: Colors.blue),
+                      ),
+                    ),
+                  ),
                 ),
               ),
             )
@@ -103,10 +161,25 @@ class CustomMoreItems extends StatelessWidget {
 
 // This widget holds the Color, Price, Size and Quantity.
 class CustomCPSQ extends StatelessWidget {
+  final String price;
+
+  CustomCPSQ(this.price);
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
+        Container(
+          height: 50.0,
+          child: Text(
+            '\$$price',
+            style: TextStyle(
+                color: Colors.white,
+                fontSize: 28.0,
+                fontWeight: FontWeight.bold),
+          ),
+          alignment: Alignment.center,
+        ),
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Container(
@@ -218,6 +291,85 @@ class CustomCPSQ extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+//This holds "MORE ITEM" & RECENTLY VIEWED
+class MoreItemCard extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final product = Provider.of<Product>(context, listen: false);
+
+    return Container(
+      height: 170.0,
+      width: 160.0,
+      color: Theme.of(context).primaryColor,
+      child: Card(
+        color: Colors.white12,
+        elevation: 1.0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(6)),
+        ),
+        child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context).pushNamed(
+                    ProductDetailScreen2.routeName,
+                    arguments: product.id,
+                  );
+                },
+                child: Container(
+                  height: 170.0,
+                  width: 160.0,
+                  child: Image.network(
+                    product.imageUrl,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+              Container(
+                width: double.infinity,
+                child: Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            '\$${product.price.toString()}',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20.0,
+                            ),
+                          ),
+                          Text(
+                            product.title,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                            style: TextStyle(
+                              fontSize: 14.0,
+                              color: Color(0xFFFFFFFF),
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Icon(
+                        Icons.favorite_border,
+                        color: Theme.of(context).accentColor,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ]),
+      ),
     );
   }
 }

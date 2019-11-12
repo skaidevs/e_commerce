@@ -9,7 +9,7 @@ class ProductImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return AspectRatio(
       aspectRatio: 16.0 / 16.3,
-      child: Image.asset(
+      child: Image.network(
         imageURL,
         fit: BoxFit.cover,
       ),

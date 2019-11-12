@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_commerce/db/auth.dart';
 import 'package:e_commerce/provider/user_provider.dart';
+import 'package:e_commerce/screens/home/ProductsOverviewScreen.dart';
 
 import 'package:e_commerce/screens/login_sign_up/custom_widget/custom_input_field.dart';
-import 'package:e_commerce/screens/home/home.dart';
 import 'package:e_commerce/widget/common.dart';
 import 'package:e_commerce/widget/loading.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -268,7 +268,7 @@ class _SignUpState extends State<SignUp> {
                                         });
 
                                         changeScreenReplacement(
-                                            context, MyHomePage());
+                                            context, ProductOverviewScreen());
                                       }
                                     },
                                     child: Image.asset(
@@ -318,7 +318,6 @@ class _SignUpState extends State<SignUp> {
 
     if (formState.validate()) {
       FirebaseUser user = await firebaseAuth.currentUser();
-
       if (user == null) {
         firebaseAuth
             .createUserWithEmailAndPassword(
@@ -337,11 +336,15 @@ class _SignUpState extends State<SignUp> {
                 err.toString(),
               ),
             );
-
         Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(builder: (context) => MyHomePage()),
-            ModalRoute.withName(MyHomePage().toString()));
+          context,
+          MaterialPageRoute(
+            builder: (context) => ProductOverviewScreen(),
+          ),
+          ModalRoute.withName(
+            ProductOverviewScreen().toString(),
+          ),
+        );
       } else {
         print("already a user");
       }
