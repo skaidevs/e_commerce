@@ -159,7 +159,7 @@ class SingleCartProduct extends StatelessWidget {
                       height: 8.0,
                     ),
                     Text(
-                      '\$${(price * quantity)}',
+                      '\$${(price * quantity).toStringAsFixed(2)}',
                       style: TextStyle(
                           fontSize: 16.0, fontWeight: FontWeight.bold),
                     ),
@@ -171,13 +171,16 @@ class SingleCartProduct extends StatelessWidget {
               margin: EdgeInsets.fromLTRB(00.0, 0.0, 6.0, 0.0),
               child: Column(
                 children: <Widget>[
-                  IconButton(icon: Icon(Icons.arrow_drop_up), onPressed: () {}),
-                  Text(
-                    '$quantity',
-                    style: TextStyle(fontWeight: FontWeight.w600),
+//                  IconButton(icon: Icon(Icons.arrow_drop_up), onPressed: () {}),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'Qty ${quantity.toString()}x',
+                      style:
+                          TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
+                    ),
                   ),
-                  IconButton(
-                      icon: Icon(Icons.arrow_drop_down), onPressed: () {}),
+//                  IconButton(icon: Icon(Icons.arrow_drop_down), onPressed: () {}),
                 ],
               ),
             ),

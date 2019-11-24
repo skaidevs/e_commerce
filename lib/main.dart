@@ -1,3 +1,4 @@
+import 'package:e_commerce/provider/auth.dart';
 import 'package:e_commerce/provider/orders.dart';
 import 'package:e_commerce/provider/products_provider.dart';
 import 'package:e_commerce/provider/user_provider.dart';
@@ -5,6 +6,7 @@ import 'package:e_commerce/provider/cart.dart';
 import 'package:e_commerce/screens/cart/cart_screen.dart';
 import 'package:e_commerce/screens/details/product_detail_screen_2.dart';
 import 'package:e_commerce/screens/home/ProductsOverviewScreen.dart';
+import 'package:e_commerce/screens/login_sign_up/auth_screen.dart';
 import 'package:e_commerce/screens/login_sign_up/login.dart';
 import 'package:e_commerce/screens/details/product_detail_screen.dart';
 import 'package:e_commerce/screens/managing_user_products/edit_product_screen.dart';
@@ -25,35 +27,59 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider.value(
-          value: Products(),
+          value: Auth(),
+        ),
+        ChangeNotifierProxyProvider<Auth, Products>(
+          builder: (ctx, auth, previousProducts) => Products(
+              auth.token,
+              auth.userId,
+              previousProducts == null ? [] : previousProducts.items),
         ),
         ChangeNotifierProvider.value(
           value: Cart(),
         ),
-        ChangeNotifierProvider.value(
-          value: Orders(),
+        ChangeNotifierProxyProvider<Auth, Orders>(
+          builder: (ctx, auth, previousOrders) => Orders(
+            auth.token,
+            auth.userId,
+            previousOrders == null ? [] : previousOrders.orders,
+          ),
         ),
       ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-            appBarTheme: AppBarTheme(
-              actionsIconTheme: IconThemeData(color: Colors.green),
-            ),
-            backgroundColor: black,
-            primaryColor: black,
-            primarySwatch: Colors.green,
+      child: Consumer<Auth>(
+        builder: (ctx, auth, _) => MaterialApp(
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+              appBarTheme: AppBarTheme(
+                actionsIconTheme: IconThemeData(
+                  color: Colors.green,
+                ),
+              ),
+              backgroundColor: black,
+              primaryColor: black,
+              primarySwatch: Colors.green,
+
 //            unselectedWidgetColor: white,
-            fontFamily: 'Lato'),
-        home: ProductOverviewScreen(),
-        routes: {
-          ProductDetailScreen.routeName: (context) => ProductDetailScreen(),
-          ProductDetailScreen2.routeName: (context) => ProductDetailScreen2(),
-          CartScreen.routeName: (context) => CartScreen(),
-          OrdersScreen.routeName: (context) => OrdersScreen(),
-          UserProductsScreen.routeName: (context) => UserProductsScreen(),
-          EditProductScreen.routeName: (context) => EditProductScreen(),
-        },
+              fontFamily: 'Lato'),
+          home: auth.isAuth
+              ? ProductOverviewScreen()
+              : FutureBuilder(
+                  future: auth.tryAutoLogIn(),
+                  builder: (ctx, authResultSnapShot) =>
+                      authResultSnapShot.connectionState ==
+                              ConnectionState.waiting
+                          ? Splash()
+                          : AuthScreen(),
+                ),
+          routes: {
+            ProductDetailScreen.routeName: (context) => ProductDetailScreen(),
+            ProductDetailScreen2.routeName: (context) => ProductDetailScreen2(),
+            CartScreen.routeName: (context) => CartScreen(),
+            OrdersScreen.routeName: (context) => OrdersScreen(),
+            UserProductsScreen.routeName: (context) => UserProductsScreen(),
+            EditProductScreen.routeName: (context) => EditProductScreen(),
+          },
+        ),
       ),
     );
   }

@@ -1,7 +1,12 @@
+import 'package:e_commerce/provider/auth.dart';
+import 'package:e_commerce/provider/cart.dart';
+import 'package:e_commerce/provider/product.dart';
 import 'package:e_commerce/provider/products_provider.dart';
+import 'package:e_commerce/screens/cart/cart_screen.dart';
 import 'package:e_commerce/screens/details/detail_custom_item.dart';
-import 'package:flutter/gestures.dart';
+import 'package:e_commerce/widget/badge.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
 class ProductDetailScreen2 extends StatelessWidget {
@@ -13,6 +18,9 @@ class ProductDetailScreen2 extends StatelessWidget {
         ModalRoute.of(context).settings.arguments as String; //is the id!
     final loadedProduct =
         Provider.of<Products>(context, listen: false).findById(productId);
+    final cart = Provider.of<Cart>(context, listen: false);
+    final auth = Provider.of<Auth>(context, listen: false);
+
     return Scaffold(
       body: Container(
         color: Theme.of(context).primaryColor,
@@ -25,13 +33,22 @@ class ProductDetailScreen2 extends StatelessWidget {
               actions: <Widget>[
                 Row(
                   children: <Widget>[
-                    InkWell(
-                      onTap: () {},
-                      child: Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Icon(
+                    Consumer<Cart>(
+                      builder: (_, cartData, ch) => Badge(
+                        child: ch,
+                        value: cartData.itemCount.toString(),
+                      ),
+                      child: IconButton(
+                        icon: Icon(
                           Icons.shopping_cart,
+                          color: Theme.of(context).accentColor,
                         ),
+                        onPressed: (cart.items.isEmpty)
+                            ? null
+                            : () {
+                                Navigator.of(context)
+                                    .pushNamed(CartScreen.routeName);
+                              },
                       ),
                     ),
                     Padding(
@@ -73,7 +90,9 @@ class ProductDetailScreen2 extends StatelessWidget {
                           CustomCPSQ(
                             loadedProduct.price.toString(),
                           ),
-                          Description(),
+                          Description(
+                            descriptionText: loadedProduct.description,
+                          ),
                           CustomShippingInfo(),
                         ],
                       ),
@@ -103,7 +122,23 @@ class ProductDetailScreen2 extends StatelessWidget {
                       'ADD TO BAG',
                       style: TextStyle(fontSize: 20.0, color: Colors.white),
                     ),
-                    onPressed: () async {},
+                    onPressed: () async {
+                      cart.addItem(
+                        loadedProduct.id,
+                        loadedProduct.price,
+                        loadedProduct.title,
+                        loadedProduct.imageUrl,
+                      );
+
+                      Fluttertoast.showToast(
+                          msg: "Item added to cart!",
+                          toastLength: Toast.LENGTH_LONG,
+                          gravity: ToastGravity.CENTER,
+                          timeInSecForIos: 1,
+                          backgroundColor: Theme.of(context).accentColor,
+                          textColor: Colors.white,
+                          fontSize: 16.0);
+                    },
                   ),
                 ),
               ),
@@ -117,9 +152,24 @@ class ProductDetailScreen2 extends StatelessWidget {
                     borderRadius: BorderRadius.circular(20)),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Icon(
-                    Icons.favorite_border,
-                    color: Theme.of(context).accentColor,
+                  child: ChangeNotifierProvider.value(
+                    value: loadedProduct,
+                    child: Consumer<Product>(
+                      builder: (context, product, child) => GestureDetector(
+                        child: Icon(
+                          product.isFavorite
+                              ? Icons.favorite
+                              : Icons.favorite_border,
+                          color: Theme.of(context).accentColor,
+                        ),
+                        onTap: () {
+                          product.toggleFavorite(
+                            auth.token,
+                            auth.userId,
+                          );
+                        },
+                      ),
+                    ),
                   ),
                 ),
               ),

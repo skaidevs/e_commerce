@@ -1,3 +1,4 @@
+import 'package:e_commerce/provider/auth.dart';
 import 'package:e_commerce/provider/cart.dart';
 import 'package:e_commerce/provider/product.dart';
 import 'package:e_commerce/screens/details/product_detail_screen.dart';
@@ -9,8 +10,12 @@ class FeaturedItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final product = Provider.of<Product>(context, listen: false);
     final cart = Provider.of<Cart>(context, listen: false);
+    final auth = Provider.of<Auth>(context, listen: false);
+
     return Container(
-      color: Theme.of(context).primaryColor,
+      height: 220.0,
+      width: 200.0,
+      color: Theme.of(context).backgroundColor,
       child: Padding(
         padding: EdgeInsets.all(4),
         child: InkWell(
@@ -35,16 +40,29 @@ class FeaturedItem extends StatelessWidget {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(10),
                     child: Card(
-                      color: Colors.black54,
+                      color: Colors.black45,
+                      elevation: 2,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20)),
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Icon(
-                          Icons.favorite_border,
-                          color: Theme.of(context).accentColor,
+                        child: Consumer<Product>(
+                          builder: (context, product, child) => GestureDetector(
+                            child: Icon(
+                              product.isFavorite
+                                  ? Icons.favorite
+                                  : Icons.favorite_border,
+                              color: Theme.of(context).accentColor,
+                            ),
+                            onTap: () {
+                              product.toggleFavorite(
+                                auth.token,
+                                auth.userId,
+                              );
+                            },
+                          ),
                         ),
                       ),
                     ),
@@ -92,26 +110,15 @@ class FeaturedItem extends StatelessWidget {
                           ProductDetailScreen.routeName,
                           arguments: product.id);
                     },
-                    child: Align(
-                      alignment: Alignment.bottomLeft,
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 8.0),
-                        child: RichText(
-                          text: TextSpan(children: [
-                            TextSpan(
-                              text: '${product.title} \n',
-                              style: TextStyle(fontSize: 18),
-                            ),
-                            TextSpan(
-                              text: 'On Sale \n',
-                              style: TextStyle(fontSize: 18),
-                            ),
-                            TextSpan(
-                              text: '\$${product.price.toString()} \n',
-                              style: TextStyle(
-                                  fontSize: 22, fontWeight: FontWeight.bold),
-                            ),
-                          ]),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: <Widget>[
+                            _listItemTitle(product.title),
+                            _listItemTitle('\$${product.price.toString()}')
+                          ],
                         ),
                       ),
                     ),
@@ -121,6 +128,18 @@ class FeaturedItem extends StatelessWidget {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _listItemTitle(String title) {
+    return new Flexible(
+      fit: FlexFit.loose,
+      child: Text(
+        "$title",
+        softWrap: false,
+        overflow: TextOverflow.ellipsis,
+        style: TextStyle(color: Colors.white, fontSize: 20.0),
       ),
     );
   }

@@ -1,7 +1,9 @@
+import 'package:e_commerce/provider/auth.dart';
 import 'package:e_commerce/screens/cart/cart_screen.dart';
 import 'package:e_commerce/screens/managing_user_products/user_products_screen.dart';
 import 'package:e_commerce/screens/orders/orders_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class AppDrawer extends StatelessWidget {
   @override
@@ -186,7 +188,10 @@ class AppDrawer extends StatelessWidget {
 
             InkWell(
               onTap: () {
+                Navigator.of(context).pop();
+                Navigator.of(context).pushReplacementNamed('/');
 //              user.signOut();
+                Provider.of<Auth>(context, listen: false).logOut();
               },
               child: ListTile(
                 title: Text(
@@ -196,7 +201,7 @@ class AppDrawer extends StatelessWidget {
                   ),
                 ),
                 leading: Icon(
-                  Icons.transit_enterexit,
+                  Icons.exit_to_app,
                   color: Colors.white,
                 ),
               ),

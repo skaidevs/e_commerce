@@ -1,7 +1,13 @@
+import 'package:e_commerce/provider/auth.dart';
+import 'package:e_commerce/provider/cart.dart';
+import 'package:e_commerce/provider/product.dart';
 import 'package:e_commerce/provider/products_provider.dart';
+import 'package:e_commerce/screens/cart/cart_screen.dart';
 import 'package:e_commerce/screens/details/detail_custom_item.dart';
+import 'package:e_commerce/widget/badge.dart';
 import 'package:e_commerce/widget/custom_list_items_horizontal.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
 class ProductDetailScreen extends StatefulWidget {
@@ -18,6 +24,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         ModalRoute.of(context).settings.arguments as String; //is the id!
     final loadedProduct =
         Provider.of<Products>(context, listen: false).findById(productId);
+    final cart = Provider.of<Cart>(context, listen: false);
+    final auth = Provider.of<Auth>(context, listen: false);
+
     return Scaffold(
       body: Container(
         color: Theme.of(context).primaryColor,
@@ -30,13 +39,22 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               actions: <Widget>[
                 Row(
                   children: <Widget>[
-                    InkWell(
-                      onTap: () {},
-                      child: Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Icon(
+                    Consumer<Cart>(
+                      builder: (_, cartData, ch) => Badge(
+                        child: ch,
+                        value: cartData.itemCount.toString(),
+                      ),
+                      child: IconButton(
+                        icon: Icon(
                           Icons.shopping_cart,
+                          color: Theme.of(context).accentColor,
                         ),
+                        onPressed: (cart.items.isEmpty)
+                            ? null
+                            : () {
+                                Navigator.of(context)
+                                    .pushNamed(CartScreen.routeName);
+                              },
                       ),
                     ),
                     Padding(
@@ -78,7 +96,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           CustomCPSQ(
                             loadedProduct.price.toString(),
                           ),
-                          Description(),
+                          Description(
+                            descriptionText: loadedProduct.description,
+                          ),
                           CustomShippingInfo(),
                           SizedBox(
                             height: 10.0,
@@ -124,7 +144,41 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       'ADD TO BAG',
                       style: TextStyle(fontSize: 20.0, color: Colors.white),
                     ),
-                    onPressed: () async {},
+                    onPressed: () async {
+                      cart.addItem(
+                        loadedProduct.id,
+                        loadedProduct.price,
+                        loadedProduct.title,
+                        loadedProduct.imageUrl,
+                      );
+
+                      Fluttertoast.showToast(
+                          msg: "Item added to cart!",
+                          toastLength: Toast.LENGTH_LONG,
+                          gravity: ToastGravity.CENTER,
+                          timeInSecForIos: 1,
+                          backgroundColor: Theme.of(context).accentColor,
+                          textColor: Colors.white,
+                          fontSize: 16.0);
+                      /*Scaffold.of(context).hideCurrentSnackBar();
+                      Scaffold.of(context).showSnackBar(
+                        SnackBar(
+                          backgroundColor: Colors.black87,
+                          content: Text(
+                            'Item added to cart!',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 16),
+                          ),
+                          duration: Duration(seconds: 2),
+                          action: SnackBarAction(
+                            label: 'UNDO',
+                            onPressed: () {
+                              cart.removeSingleItem(loadedProduct.id);
+                            },
+                          ),
+                        ),
+                      );*/
+                    },
                   ),
                 ),
               ),
@@ -138,9 +192,24 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     borderRadius: BorderRadius.circular(20)),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Icon(
-                    Icons.favorite_border,
-                    color: Theme.of(context).accentColor,
+                  child: ChangeNotifierProvider.value(
+                    value: loadedProduct,
+                    child: Consumer<Product>(
+                      builder: (context, product, child) => GestureDetector(
+                        child: Icon(
+                          product.isFavorite
+                              ? Icons.favorite
+                              : Icons.favorite_border,
+                          color: Theme.of(context).accentColor,
+                        ),
+                        onTap: () {
+                          product.toggleFavorite(
+                            auth.token,
+                            auth.userId,
+                          );
+                        },
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -152,6 +221,26 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   }
 }
 /*
+
+ChangeNotifierProvider.value(
+        child: ProductGridItem(),
+        value: products[index],
+      ),
+
+
+      Consumer<Product>(
+                    builder: (context, product, child) => IconButton(
+                      icon: Icon(
+                        product.isFavorite
+                            ? Icons.favorite
+                            : Icons.favorite_border,
+                        color: Theme.of(context).accentColor,
+                      ),
+                      onPressed: () {
+                        product.toggleFavorite();
+                      },
+                    ),
+                  ),
 
   @override
   Widget build(BuildContext context) {

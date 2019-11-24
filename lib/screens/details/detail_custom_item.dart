@@ -1,3 +1,4 @@
+import 'package:e_commerce/provider/auth.dart';
 import 'package:e_commerce/provider/product.dart';
 import 'package:e_commerce/screens/details/product_detail_screen_2.dart';
 import 'package:e_commerce/widget/common.dart';
@@ -57,6 +58,10 @@ class CustomShippingInfo extends StatelessWidget {
 }
 
 class Description extends StatelessWidget {
+  final String descriptionText;
+
+  Description({this.descriptionText});
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -88,7 +93,7 @@ class Description extends StatelessWidget {
                       text: TextSpan(
                         children: [
                           TextSpan(
-                            text: dummyText,
+                            text: descriptionText,
                             style: TextStyle(fontSize: 16, color: Colors.grey),
                           ),
                         ],
@@ -300,6 +305,7 @@ class MoreItemCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final product = Provider.of<Product>(context, listen: false);
+    final auth = Provider.of<Auth>(context, listen: false);
 
     return Container(
       height: 170.0,
@@ -338,31 +344,46 @@ class MoreItemCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            '\$${product.price.toString()}',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20.0,
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              '\$${product.price.toString()}',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20.0,
+                              ),
                             ),
-                          ),
-                          Text(
-                            product.title,
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
-                            style: TextStyle(
-                              fontSize: 14.0,
-                              color: Color(0xFFFFFFFF),
-                              fontWeight: FontWeight.bold,
+                            Text(
+                              product.title,
+                              overflow: TextOverflow.ellipsis,
+                              softWrap: true,
+                              maxLines: 1,
+                              style: TextStyle(
+                                fontSize: 14.0,
+                                color: Color(0xFFFFFFFF),
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                      Icon(
-                        Icons.favorite_border,
-                        color: Theme.of(context).accentColor,
+                      Consumer<Product>(
+                        builder: (context, product, child) => GestureDetector(
+                          child: Icon(
+                            product.isFavorite
+                                ? Icons.favorite
+                                : Icons.favorite_border,
+                            color: Theme.of(context).accentColor,
+                          ),
+                          onTap: () {
+                            product.toggleFavorite(
+                              auth.token,
+                              auth.userId,
+                            );
+                          },
+                        ),
                       ),
                     ],
                   ),

@@ -1,4 +1,3 @@
-import 'package:e_commerce/provider/orders.dart';
 import 'package:e_commerce/provider/products_provider.dart';
 import 'package:e_commerce/provider/cart.dart';
 import 'package:e_commerce/screens/cart/cart_screen.dart';
@@ -116,11 +115,16 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
               value: cartData.itemCount.toString(),
             ),
             child: IconButton(
-              icon: Icon(Icons.shopping_cart),
+              icon: Icon(
+                Icons.shopping_cart,
+                color: Theme.of(context).accentColor,
+              ),
               onPressed: (cartData.items.isEmpty)
                   ? null
                   : () {
-                      Navigator.of(context).pushNamed(CartScreen.routeName);
+                      Navigator.of(context).pushNamed(
+                        CartScreen.routeName,
+                      );
                     },
             ),
           ),
