@@ -43,7 +43,7 @@ class ProductDetailScreen2 extends StatelessWidget {
                           Icons.shopping_cart,
                           color: Theme.of(context).accentColor,
                         ),
-                        onPressed: (cart.items.isEmpty)
+                        onPressed: cart.items.isEmpty
                             ? null
                             : () {
                                 Navigator.of(context)
@@ -89,6 +89,9 @@ class ProductDetailScreen2 extends StatelessWidget {
                         children: <Widget>[
                           CustomCPSQ(
                             loadedProduct.price.toString(),
+                            loadedProduct.quantity,
+                            loadedProduct.size,
+                            loadedProduct.color,
                           ),
                           Description(
                             descriptionText: loadedProduct.description,

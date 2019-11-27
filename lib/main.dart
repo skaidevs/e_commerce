@@ -50,6 +50,7 @@ class MyApp extends StatelessWidget {
         builder: (ctx, auth, _) => MaterialApp(
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
+              canvasColor: Colors.black87,
               appBarTheme: AppBarTheme(
                 actionsIconTheme: IconThemeData(
                   color: Colors.green,

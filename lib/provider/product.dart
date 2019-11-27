@@ -12,8 +12,8 @@ class Product with ChangeNotifier {
   final String brand;
   final String color;
   final String delivery;
-  final List<int> size;
-  final int quantity;
+  final List size;
+  final List quantity;
   bool isFavorite;
 
   Product(

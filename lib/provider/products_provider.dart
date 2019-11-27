@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_commerce/models/http_exception.dart';
 import 'package:e_commerce/provider/product.dart';
 import 'package:flutter/material.dart';
@@ -94,6 +93,9 @@ class Products with ChangeNotifier {
         return;
       }
 
+//      quantity.forEach(
+//          (qty, qtyData) => {qtyData['title'], print(qtyData['quantity'])});
+
       url =
           'https://ecommercer-6461c.firebaseio.com/userFavorites/$userId.json?auth=$authToken';
 
@@ -108,14 +110,17 @@ class Products with ChangeNotifier {
             title: prodData['title'],
             description: prodData['description'],
             price: prodData['price'],
+            quantity: prodData['quantity'] as List,
+            size: prodData['size'] as List,
+            color: prodData['color'],
             isFavorite:
                 favoriteData == null ? false : favoriteData[prodId] ?? false,
             imageUrl: prodData['imageUrl'],
           ),
         );
-      });
 
-      print(loadedProducts.length);
+        print(prodData['color']);
+      });
 
       _items = loadedProducts;
       notifyListeners();

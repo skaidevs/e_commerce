@@ -27,6 +27,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     final cart = Provider.of<Cart>(context, listen: false);
     final auth = Provider.of<Auth>(context, listen: false);
 
+    print(loadedProduct.quantity);
+
     return Scaffold(
       body: Container(
         color: Theme.of(context).primaryColor,
@@ -95,6 +97,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         children: <Widget>[
                           CustomCPSQ(
                             loadedProduct.price.toString(),
+                            loadedProduct.quantity,
+                            loadedProduct.size,
+                            loadedProduct.color,
                           ),
                           Description(
                             descriptionText: loadedProduct.description,

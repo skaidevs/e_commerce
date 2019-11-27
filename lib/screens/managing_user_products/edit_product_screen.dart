@@ -23,7 +23,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
     imageUrl: '',
     description: '',
     color: null,
-    quantity: 0,
+    quantity: [],
     size: null,
     brand: '',
     delivery: '',

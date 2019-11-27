@@ -5,11 +5,6 @@ import 'package:e_commerce/widget/common.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-String dummyText =
-    "What is Lorem Ipsum? Lorem Ipsum nis simply dummy text of the pr"
-    "inting and typesetting industry. Lorem Ipsum has been the industry's' "
-    "to make a type specimen book. It has survived not only five centuries.";
-
 //Shipping Information
 class CustomShippingInfo extends StatelessWidget {
   @override
@@ -165,10 +160,77 @@ class CustomMoreItems extends StatelessWidget {
 }
 
 // This widget holds the Color, Price, Size and Quantity.
-class CustomCPSQ extends StatelessWidget {
+// ignore: must_be_immutable
+class CustomCPSQ extends StatefulWidget {
   final String price;
+  final String color;
+  List quantity;
+  List size;
 
-  CustomCPSQ(this.price);
+  CustomCPSQ(this.price, this.quantity, this.size, this.color);
+
+  @override
+  _CustomCPSQState createState() => _CustomCPSQState();
+}
+
+class _CustomCPSQState extends State<CustomCPSQ> {
+  int _selectedQty;
+  int _selectedSize;
+
+  List<DropdownMenuItem<int>> getQtyDropDown() {
+    List<DropdownMenuItem<int>> items = List();
+    for (int i = 0; i < widget.quantity.length; i++) {
+      setState(() {
+        items.add(
+          DropdownMenuItem(
+            child: Text('QTY  ${widget.quantity[i]}'),
+            value: widget.quantity[i],
+          ),
+        );
+      });
+    }
+    return items;
+  }
+
+  List<DropdownMenuItem<int>> getSizeDropDown() {
+    List<DropdownMenuItem<int>> items = List();
+    for (int i = 0; i < widget.size.length; i++) {
+      setState(() {
+        items.add(
+          DropdownMenuItem(
+            child: Text('QTY  ${widget.size[i]}'),
+            value: widget.size[i],
+          ),
+        );
+      });
+    }
+    return items;
+  }
+
+  DropdownButton _customDown(
+    List<DropdownMenuItem> qtyList,
+    Function onChanged,
+    int value,
+    String text,
+  ) =>
+      DropdownButton(
+        items: qtyList,
+        onChanged: onChanged,
+        value: value,
+
+        iconSize: 24,
+        elevation: 16,
+        style: TextStyle(color: Colors.green, fontSize: 16.0),
+        underline: Container(
+          height: 1,
+          color: Colors.white,
+        ),
+//                  onChanged: (int newValue) {},
+        hint: Text(
+          text,
+          style: TextStyle(color: Colors.grey),
+        ),
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -177,7 +239,7 @@ class CustomCPSQ extends StatelessWidget {
         Container(
           height: 50.0,
           child: Text(
-            '\$$price',
+            '\$${widget.price}',
             style: TextStyle(
                 color: Colors.white,
                 fontSize: 28.0,
@@ -191,10 +253,24 @@ class CustomCPSQ extends StatelessWidget {
             color: Colors.white10,
             height: 50,
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Expanded(
+                Container(
                   child: Text(
-                    "COLOR",
+                    'COLOR',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontSize: 13.0,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: 10.0,
+                ),
+                Container(
+                  child: Text(
+                    '${widget.color}',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Colors.white,
@@ -209,87 +285,29 @@ class CustomCPSQ extends StatelessWidget {
         ),
         Container(
           color: Colors.white10,
-          height: 100,
+          height: 70,
           child: Padding(
             padding: const EdgeInsets.all(10.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
-                Expanded(
-                  child: MaterialButton(
-                    onPressed: () {
-                      showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              title: Text('SIZE'),
-                              content: Text('Choose the Size'),
-                              actions: <Widget>[
-                                MaterialButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pop(context);
-                                  },
-                                  child: Text('CLOSE'),
-                                ),
-                              ],
-                            );
-                          });
-                    },
-                    color: Colors.white,
-                    textColor: Colors.black87,
-                    elevation: 0.2,
-                    child: Row(
-                      children: <Widget>[
-                        Expanded(
-                          child: Text("SIZE"),
-                        ),
-                        Expanded(
-                          child: Icon(Icons.arrow_drop_down),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                _customDown(getQtyDropDown(), (value) {
+                  setState(() {
+                    _selectedQty = value;
+                  });
+                }, _selectedQty, 'QTY  '),
 
                 SizedBox(
                   width: 30,
                 ),
+
+                _customDown(getSizeDropDown(), (value) {
+                  setState(() {
+                    _selectedSize = value;
+                  });
+                }, _selectedSize, 'SIZE  '),
                 // the size button
-                Expanded(
-                  child: MaterialButton(
-                    onPressed: () {
-                      showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              title: Text('QUANTITY'),
-                              content: Text('Choose the Quantity'),
-                              actions: <Widget>[
-                                MaterialButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pop(context);
-                                  },
-                                  child: Text('CLOSE'),
-                                ),
-                              ],
-                            );
-                          });
-                    },
-                    color: Colors.white,
-                    textColor: Colors.black87,
-                    elevation: 0.2,
-                    child: Row(
-                      children: <Widget>[
-                        Expanded(
-                          child: Text("QTY"),
-                        ),
-                        Expanded(
-                          child: Icon(Icons.arrow_drop_down),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+
                 // the size button
               ],
             ),

@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:e_commerce/provider/cart.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
