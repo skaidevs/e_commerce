@@ -9,8 +9,42 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
-class ProductDetailScreen2 extends StatelessWidget {
+class ProductDetailScreen2 extends StatefulWidget {
   static const routeName = '/product_detail_screen2';
+
+  @override
+  _ProductDetailScreen2State createState() => _ProductDetailScreen2State();
+}
+
+class _ProductDetailScreen2State extends State<ProductDetailScreen2> {
+  int _selectedQty;
+
+  int _selectedSize;
+
+  DropdownButton _customDown(
+    List<DropdownMenuItem> qtyList,
+    Function onChanged,
+    int value,
+    String text,
+  ) =>
+      DropdownButton(
+        items: qtyList,
+        onChanged: onChanged,
+        value: value,
+
+        iconSize: 24,
+        elevation: 16,
+        style: TextStyle(color: Colors.green, fontSize: 16.0),
+        underline: Container(
+          height: 1,
+          color: Colors.white,
+        ),
+//                  onChanged: (int newValue) {},
+        hint: Text(
+          text,
+          style: TextStyle(color: Colors.grey),
+        ),
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +54,32 @@ class ProductDetailScreen2 extends StatelessWidget {
         Provider.of<Products>(context, listen: false).findById(productId);
     final cart = Provider.of<Cart>(context, listen: false);
     final auth = Provider.of<Auth>(context, listen: false);
+
+    List<DropdownMenuItem<int>> getQtyDropDown() {
+      List<DropdownMenuItem<int>> items = List();
+      for (int i = 0; i < loadedProduct.quantity.length; i++) {
+        items.add(
+          DropdownMenuItem(
+            child: Text('QTY  ${loadedProduct.quantity[i]}'),
+            value: loadedProduct.quantity[i],
+          ),
+        );
+      }
+      return items;
+    }
+
+    List<DropdownMenuItem<int>> getSizeDropDown() {
+      List<DropdownMenuItem<int>> items = List();
+      for (int i = 0; i < loadedProduct.size.length; i++) {
+        items.add(
+          DropdownMenuItem(
+            child: Text('SIZE  ${loadedProduct.size[i]}'),
+            value: loadedProduct.size[i],
+          ),
+        );
+      }
+      return items;
+    }
 
     return Scaffold(
       body: Container(
@@ -93,6 +153,37 @@ class ProductDetailScreen2 extends StatelessWidget {
                             loadedProduct.size,
                             loadedProduct.color,
                           ),
+                          Container(
+                            color: Colors.white10,
+                            height: 70,
+                            child: Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: <Widget>[
+                                  _customDown(getQtyDropDown(), (value) {
+                                    setState(() {
+                                      _selectedQty = value;
+                                    });
+                                  }, _selectedQty, 'QTY  '),
+
+                                  SizedBox(
+                                    width: 30,
+                                  ),
+
+                                  _customDown(getSizeDropDown(), (value) {
+                                    setState(() {
+                                      _selectedSize = value;
+                                    });
+                                  }, _selectedSize, 'SIZE  '),
+                                  // the size button
+
+                                  // the size button
+                                ],
+                              ),
+                            ),
+                          ),
                           Description(
                             descriptionText: loadedProduct.description,
                           ),
@@ -126,12 +217,20 @@ class ProductDetailScreen2 extends StatelessWidget {
                       style: TextStyle(fontSize: 20.0, color: Colors.white),
                     ),
                     onPressed: () async {
+//                      cart.addItem(
+//                        loadedProduct.id,
+//                        loadedProduct.price,
+//                        loadedProduct.title,
+//                        loadedProduct.imageUrl,
+//
+//                      );
+
                       cart.addItem(
-                        loadedProduct.id,
-                        loadedProduct.price,
-                        loadedProduct.title,
-                        loadedProduct.imageUrl,
-                      );
+                          prodId: loadedProduct.id,
+                          price: loadedProduct.price,
+                          title: loadedProduct.title,
+                          imageUrl: loadedProduct.imageUrl,
+                          qty: _selectedQty);
 
                       Fluttertoast.showToast(
                           msg: "Item added to cart!",

@@ -18,6 +18,33 @@ class ProductDetailScreen extends StatefulWidget {
 }
 
 class _ProductDetailScreenState extends State<ProductDetailScreen> {
+  int _selectedQty = 1;
+  int _selectedSize;
+
+  DropdownButton _customDown(
+    List<DropdownMenuItem> qtyList,
+    Function onChanged,
+    int value,
+    String text,
+  ) =>
+      DropdownButton(
+        items: qtyList,
+        onChanged: onChanged,
+        value: value,
+
+        iconSize: 24,
+        elevation: 16,
+        style: TextStyle(color: Colors.green, fontSize: 16.0),
+        underline: Container(
+          height: 1,
+          color: Colors.white,
+        ),
+//                  onChanged: (int newValue) {},
+        hint: Text(
+          text,
+          style: TextStyle(color: Colors.grey),
+        ),
+      );
   @override
   Widget build(BuildContext context) {
     final productId =
@@ -27,7 +54,31 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     final cart = Provider.of<Cart>(context, listen: false);
     final auth = Provider.of<Auth>(context, listen: false);
 
-    print(loadedProduct.quantity);
+    List<DropdownMenuItem<int>> getQtyDropDown() {
+      List<DropdownMenuItem<int>> items = List();
+      for (int i = 0; i < loadedProduct.quantity.length; i++) {
+        items.add(
+          DropdownMenuItem(
+            child: Text('QTY  ${loadedProduct.quantity[i]}'),
+            value: loadedProduct.quantity[i],
+          ),
+        );
+      }
+      return items;
+    }
+
+    List<DropdownMenuItem<int>> getSizeDropDown() {
+      List<DropdownMenuItem<int>> items = List();
+      for (int i = 0; i < loadedProduct.size.length; i++) {
+        items.add(
+          DropdownMenuItem(
+            child: Text('SIZE  ${loadedProduct.size[i]}'),
+            value: loadedProduct.size[i],
+          ),
+        );
+      }
+      return items;
+    }
 
     return Scaffold(
       body: Container(
@@ -101,6 +152,37 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                             loadedProduct.size,
                             loadedProduct.color,
                           ),
+                          Container(
+                            color: Colors.white10,
+                            height: 70,
+                            child: Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: <Widget>[
+                                  _customDown(getQtyDropDown(), (value) {
+                                    setState(() {
+                                      _selectedQty = value;
+                                    });
+                                  }, _selectedQty, 'QTY  '),
+
+                                  SizedBox(
+                                    width: 30,
+                                  ),
+
+                                  _customDown(getSizeDropDown(), (value) {
+                                    setState(() {
+                                      _selectedSize = value;
+                                    });
+                                  }, _selectedSize, 'SIZE  '),
+                                  // the size button
+
+                                  // the size button
+                                ],
+                              ),
+                            ),
+                          ),
                           Description(
                             descriptionText: loadedProduct.description,
                           ),
@@ -150,12 +232,21 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       style: TextStyle(fontSize: 20.0, color: Colors.white),
                     ),
                     onPressed: () async {
-                      cart.addItem(
-                        loadedProduct.id,
-                        loadedProduct.price,
-                        loadedProduct.title,
-                        loadedProduct.imageUrl,
-                      );
+                      _selectedSize.toString().isEmpty
+                          ? Fluttertoast.showToast(
+                              msg: "Item added to cart!",
+                              toastLength: Toast.LENGTH_LONG,
+                              gravity: ToastGravity.CENTER,
+                              timeInSecForIos: 1,
+                              backgroundColor: Theme.of(context).accentColor,
+                              textColor: Colors.white,
+                              fontSize: 16.0)
+                          : cart.addItem(
+                              prodId: loadedProduct.id,
+                              price: loadedProduct.price,
+                              title: loadedProduct.title,
+                              imageUrl: loadedProduct.imageUrl,
+                              qty: _selectedQty);
 
                       Fluttertoast.showToast(
                           msg: "Item added to cart!",
@@ -165,24 +256,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           backgroundColor: Theme.of(context).accentColor,
                           textColor: Colors.white,
                           fontSize: 16.0);
-                      /*Scaffold.of(context).hideCurrentSnackBar();
-                      Scaffold.of(context).showSnackBar(
-                        SnackBar(
-                          backgroundColor: Colors.black87,
-                          content: Text(
-                            'Item added to cart!',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 16),
-                          ),
-                          duration: Duration(seconds: 2),
-                          action: SnackBarAction(
-                            label: 'UNDO',
-                            onPressed: () {
-                              cart.removeSingleItem(loadedProduct.id);
-                            },
-                          ),
-                        ),
-                      );*/
                     },
                   ),
                 ),
@@ -225,135 +298,3 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     );
   }
 }
-/*
-
-ChangeNotifierProvider.value(
-        child: ProductGridItem(),
-        value: products[index],
-      ),
-
-
-      Consumer<Product>(
-                    builder: (context, product, child) => IconButton(
-                      icon: Icon(
-                        product.isFavorite
-                            ? Icons.favorite
-                            : Icons.favorite_border,
-                        color: Theme.of(context).accentColor,
-                      ),
-                      onPressed: () {
-                        product.toggleFavorite();
-                      },
-                    ),
-                  ),
-
-  @override
-  Widget build(BuildContext context) {
-    final productId =
-        ModalRoute.of(context).settings.arguments as String; //is the id!
-    final loadedProduct =
-        Provider.of<Products>(context, listen: false).findById(productId);
-    return Scaffold(
-      backgroundColor: Theme.of(context).primaryColor,
-      body: CustomScrollView(
-        slivers: <Widget>[
-          SliverAppBar(
-            actions: <Widget>[
-              Row(children: <Widget>[
-                InkWell(
-                  onTap: () {},
-                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Icon(Icons.shopping_cart),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(10.0, 10.0, 18.0, 10.0),
-                  child: Icon(Icons.share),
-                ),
-              ]),
-            ],
-            expandedHeight: 230,
-            pinned: true,
-            flexibleSpace: FlexibleSpaceBar(
-              title: Container(
-                padding: EdgeInsets.only(
-                  left: 30,
-                  right: 30,
-                  top: 6,
-                  bottom: 6,
-                ),
-                color: Colors.black87,
-                child: Text(loadedProduct.title),
-              ),
-              background: Image.network(
-                loadedProduct
-                    .imageUrl, // <===   Add your own image to assets or use a .network image instead.
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-        ],
-      ),
-      bottomNavigationBar: Container(
-        color: Colors.black,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(children: <Widget>[
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  height: 44,
-                  width: 300.0,
-                  child: RaisedButton(
-                    color: Theme.of(context).accentColor,
-                    textColor: Theme.of(context).primaryColor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(2.0),
-                    ),
-                    child: Text(
-                      'ADD TO BAG',
-                      style: TextStyle(
-                        fontSize: 20.0,
-                      ),
-                    ),
-                    onPressed: () async {},
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: Card(
-                elevation: 10,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20)),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Icon(Icons.favorite_border),
-                ),
-              ),
-            ),
-          ]),
-
-//      floatingActionButton: FloatingActionButton(
-//        onPressed: () {
-////          updateFavorites(appState.user.uid, widget.recipe.id).then((result) {
-////            // Toggle "in favorites" if the result was successful.
-////            if (result) _toggleInFavorites();
-////          });
-//        },
-//        child: Icon(
-//          _inFavorites ? Icons.favorite : Icons.favorite_border,
-//          color: Theme.of(context).iconTheme.color,
-//        ),
-//        elevation: 2.0,
-//        backgroundColor: Colors.white,
-//      ),
-        ),
-      ),
-    );
-  }
-}
-*/

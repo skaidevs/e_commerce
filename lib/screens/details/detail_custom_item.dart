@@ -167,71 +167,18 @@ class CustomCPSQ extends StatefulWidget {
   List quantity;
   List size;
 
-  CustomCPSQ(this.price, this.quantity, this.size, this.color);
+  CustomCPSQ(
+    this.price,
+    this.quantity,
+    this.size,
+    this.color,
+  );
 
   @override
   _CustomCPSQState createState() => _CustomCPSQState();
 }
 
 class _CustomCPSQState extends State<CustomCPSQ> {
-  int _selectedQty;
-  int _selectedSize;
-
-  List<DropdownMenuItem<int>> getQtyDropDown() {
-    List<DropdownMenuItem<int>> items = List();
-    for (int i = 0; i < widget.quantity.length; i++) {
-      setState(() {
-        items.add(
-          DropdownMenuItem(
-            child: Text('QTY  ${widget.quantity[i]}'),
-            value: widget.quantity[i],
-          ),
-        );
-      });
-    }
-    return items;
-  }
-
-  List<DropdownMenuItem<int>> getSizeDropDown() {
-    List<DropdownMenuItem<int>> items = List();
-    for (int i = 0; i < widget.size.length; i++) {
-      setState(() {
-        items.add(
-          DropdownMenuItem(
-            child: Text('QTY  ${widget.size[i]}'),
-            value: widget.size[i],
-          ),
-        );
-      });
-    }
-    return items;
-  }
-
-  DropdownButton _customDown(
-    List<DropdownMenuItem> qtyList,
-    Function onChanged,
-    int value,
-    String text,
-  ) =>
-      DropdownButton(
-        items: qtyList,
-        onChanged: onChanged,
-        value: value,
-
-        iconSize: 24,
-        elevation: 16,
-        style: TextStyle(color: Colors.green, fontSize: 16.0),
-        underline: Container(
-          height: 1,
-          color: Colors.white,
-        ),
-//                  onChanged: (int newValue) {},
-        hint: Text(
-          text,
-          style: TextStyle(color: Colors.grey),
-        ),
-      );
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -279,36 +226,6 @@ class _CustomCPSQState extends State<CustomCPSQ> {
                     ),
                   ),
                 ),
-              ],
-            ),
-          ),
-        ),
-        Container(
-          color: Colors.white10,
-          height: 70,
-          child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                _customDown(getQtyDropDown(), (value) {
-                  setState(() {
-                    _selectedQty = value;
-                  });
-                }, _selectedQty, 'QTY  '),
-
-                SizedBox(
-                  width: 30,
-                ),
-
-                _customDown(getSizeDropDown(), (value) {
-                  setState(() {
-                    _selectedSize = value;
-                  });
-                }, _selectedSize, 'SIZE  '),
-                // the size button
-
-                // the size button
               ],
             ),
           ),
