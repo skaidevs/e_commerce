@@ -117,7 +117,8 @@ class FeaturedItem extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: <Widget>[
                             _listItemTitle(product.title),
-                            _listItemTitle('\$${product.price.toString()}')
+                            _listItemTitle(
+                                '\$${product.price.toStringAsFixed(0)}')
                           ],
                         ),
                       ),

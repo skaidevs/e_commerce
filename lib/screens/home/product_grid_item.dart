@@ -20,78 +20,81 @@ class ProductGridItem extends StatelessWidget {
     final cart = Provider.of<Cart>(context, listen: false);
     final auth = Provider.of<Auth>(context, listen: false);
 
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(
-        6.0,
-      ),
-      child: GridTile(
-        child: GestureDetector(
-          onTap: () {
-            Navigator.of(context).pushNamed(ProductDetailScreen.routeName,
-                arguments: product.id);
-          },
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context)
+            .pushNamed(ProductDetailScreen.routeName, arguments: product.id);
+      },
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(
+          6.0,
+        ),
+        child: GridTile(
           child: Image.network(
             product.imageUrl,
             fit: BoxFit.cover,
           ),
-        ),
-        footer: GridTileBar(
-          subtitle: Text(
-            '\$${product.price.toString()}',
-            style: TextStyle(
-                fontSize: 12.0,
-                color: Colors.white,
-                fontWeight: FontWeight.bold),
-          ),
-          leading: Consumer<Product>(
-            builder: (context, product, child) => IconButton(
+          footer: GridTileBar(
+            subtitle: Text(
+              '\$${product.price.toStringAsFixed(0)}',
+              style: TextStyle(
+                  fontSize: 12.0,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold),
+            ),
+            trailing: Consumer<Product>(
+              builder: (context, product, child) => IconButton(
+                icon: Icon(
+                  product.isFavorite ? Icons.favorite : Icons.favorite_border,
+                  color: Theme.of(context).accentColor,
+                ),
+                onPressed: () {
+                  product.toggleFavorite(
+                    auth.token,
+                    auth.userId,
+                  );
+                },
+              ),
+            ),
+
+            /*trailing: IconButton(
               icon: Icon(
-                product.isFavorite ? Icons.favorite : Icons.favorite_border,
+                Icons.shopping_cart,
                 color: Theme.of(context).accentColor,
               ),
               onPressed: () {
-                product.toggleFavorite(
-                  auth.token,
-                  auth.userId,
+                cart.addItem(
+                  prodId: product.id,
+                  price: product.price,
+                  title: product.title,
+                  imageUrl: product.imageUrl,
+                  color: product.color,
+                  size: product.size,
+                );
+                Scaffold.of(context).hideCurrentSnackBar();
+                Scaffold.of(context).showSnackBar(
+                  SnackBar(
+                    backgroundColor: Colors.black87,
+                    content: Text(
+                      'Item added to cart!',
+                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                    ),
+                    duration: Duration(seconds: 2),
+                    action: SnackBarAction(
+                      label: 'UNDO',
+                      onPressed: () {
+                        cart.removeSingleItem(product.id);
+                      },
+                    ),
+                  ),
                 );
               },
+            ),*/
+            backgroundColor: Colors.black54,
+            title: Text(
+              product.title,
+              textAlign: TextAlign.center,
             ),
-          ),
-          trailing: IconButton(
-            icon: Icon(
-              Icons.shopping_cart,
-              color: Theme.of(context).accentColor,
-            ),
-            onPressed: () {
-//              cart.addItem(
-//                product.id,
-//                product.price,
-//                product.title,
-//                product.imageUrl,
-//              );
-              Scaffold.of(context).hideCurrentSnackBar();
-              Scaffold.of(context).showSnackBar(
-                SnackBar(
-                  backgroundColor: Colors.black87,
-                  content: Text(
-                    'Item added to cart!',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                  ),
-                  duration: Duration(seconds: 2),
-                  action: SnackBarAction(
-                    label: 'UNDO',
-                    onPressed: () {
-                      cart.removeSingleItem(product.id);
-                    },
-                  ),
-                ),
-              );
-            },
-          ),
-          backgroundColor: Colors.black54,
-          title: Text(
-            product.title,
-            textAlign: TextAlign.center,
           ),
         ),
       ),

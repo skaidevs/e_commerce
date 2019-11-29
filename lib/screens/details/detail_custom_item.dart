@@ -284,7 +284,7 @@ class MoreItemCard extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Text(
-                              '\$${product.price.toString()}',
+                              '\$${product.price.toStringAsFixed(0)}',
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 20.0,

@@ -17,7 +17,7 @@ class ProductDetailScreen2 extends StatefulWidget {
 }
 
 class _ProductDetailScreen2State extends State<ProductDetailScreen2> {
-  int _selectedQty;
+  int _selectedQty = 1;
 
   int _selectedSize;
 
@@ -217,29 +217,35 @@ class _ProductDetailScreen2State extends State<ProductDetailScreen2> {
                       style: TextStyle(fontSize: 20.0, color: Colors.white),
                     ),
                     onPressed: () async {
-//                      cart.addItem(
-//                        loadedProduct.id,
-//                        loadedProduct.price,
-//                        loadedProduct.title,
-//                        loadedProduct.imageUrl,
-//
-//                      );
-
-                      cart.addItem(
+                      if (_selectedSize == null) {
+                        Fluttertoast.showToast(
+                            msg: "Select Size!",
+                            toastLength: Toast.LENGTH_LONG,
+                            gravity: ToastGravity.CENTER,
+                            timeInSecForIos: 1,
+                            backgroundColor: Theme.of(context).accentColor,
+                            textColor: Colors.white,
+                            fontSize: 16.0);
+                      } else {
+                        cart.addItem(
                           prodId: loadedProduct.id,
                           price: loadedProduct.price,
                           title: loadedProduct.title,
                           imageUrl: loadedProduct.imageUrl,
-                          qty: _selectedQty);
+                          color: loadedProduct.color,
+                          size: _selectedSize,
+                          qty: _selectedQty,
+                        );
 
-                      Fluttertoast.showToast(
-                          msg: "Item added to cart!",
-                          toastLength: Toast.LENGTH_LONG,
-                          gravity: ToastGravity.CENTER,
-                          timeInSecForIos: 1,
-                          backgroundColor: Theme.of(context).accentColor,
-                          textColor: Colors.white,
-                          fontSize: 16.0);
+                        Fluttertoast.showToast(
+                            msg: "Item added to cart!",
+                            toastLength: Toast.LENGTH_LONG,
+                            gravity: ToastGravity.CENTER,
+                            timeInSecForIos: 1,
+                            backgroundColor: Theme.of(context).accentColor,
+                            textColor: Colors.white,
+                            fontSize: 16.0);
+                      }
                     },
                   ),
                 ),

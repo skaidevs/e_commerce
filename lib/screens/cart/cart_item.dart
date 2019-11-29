@@ -53,6 +53,8 @@ class SingleCartProduct extends StatelessWidget {
   final String imageUrl;
   final int quantity;
   final String title;
+  final String color;
+  final int size;
 
   SingleCartProduct({
     this.id,
@@ -61,6 +63,8 @@ class SingleCartProduct extends StatelessWidget {
     this.imageUrl,
     this.quantity,
     this.title,
+    this.color,
+    this.size,
   });
 
   @override
@@ -138,7 +142,7 @@ class SingleCartProduct extends StatelessWidget {
                       children: <Widget>[
                         Text("Size: "),
                         Text(
-                          "none",
+                          size.toString(),
                           style: TextStyle(fontWeight: FontWeight.w500),
                         )
                       ],
@@ -150,7 +154,7 @@ class SingleCartProduct extends StatelessWidget {
                       children: <Widget>[
                         Text("Color: "),
                         Text(
-                          'none',
+                          color,
                           style: TextStyle(fontWeight: FontWeight.w500),
                         )
                       ],

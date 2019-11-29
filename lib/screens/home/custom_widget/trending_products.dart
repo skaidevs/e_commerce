@@ -78,9 +78,11 @@ class TrendingItem extends StatelessWidget {
                             style: TextStyle(fontSize: 18),
                           ),
                           TextSpan(
-                            text: '\$${product.price.toString()}',
+                            text: '\$${product.price.toStringAsFixed(0)}',
                             style: TextStyle(
-                                fontSize: 22, fontWeight: FontWeight.bold),
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ]),
                       ),

@@ -147,7 +147,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   (context, index) => Column(
                         children: <Widget>[
                           CustomCPSQ(
-                            loadedProduct.price.toString(),
+                            loadedProduct.price.toStringAsFixed(0),
                             loadedProduct.quantity,
                             loadedProduct.size,
                             loadedProduct.color,
@@ -232,30 +232,35 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       style: TextStyle(fontSize: 20.0, color: Colors.white),
                     ),
                     onPressed: () async {
-                      _selectedSize.toString().isEmpty
-                          ? Fluttertoast.showToast(
-                              msg: "Item added to cart!",
-                              toastLength: Toast.LENGTH_LONG,
-                              gravity: ToastGravity.CENTER,
-                              timeInSecForIos: 1,
-                              backgroundColor: Theme.of(context).accentColor,
-                              textColor: Colors.white,
-                              fontSize: 16.0)
-                          : cart.addItem(
-                              prodId: loadedProduct.id,
-                              price: loadedProduct.price,
-                              title: loadedProduct.title,
-                              imageUrl: loadedProduct.imageUrl,
-                              qty: _selectedQty);
+                      if (_selectedSize == null) {
+                        Fluttertoast.showToast(
+                            msg: "Select Size!",
+                            toastLength: Toast.LENGTH_LONG,
+                            gravity: ToastGravity.CENTER,
+                            timeInSecForIos: 1,
+                            backgroundColor: Theme.of(context).accentColor,
+                            textColor: Colors.white,
+                            fontSize: 16.0);
+                      } else {
+                        cart.addItem(
+                          prodId: loadedProduct.id,
+                          price: loadedProduct.price,
+                          title: loadedProduct.title,
+                          imageUrl: loadedProduct.imageUrl,
+                          color: loadedProduct.color,
+                          size: _selectedSize,
+                          qty: _selectedQty,
+                        );
 
-                      Fluttertoast.showToast(
-                          msg: "Item added to cart!",
-                          toastLength: Toast.LENGTH_LONG,
-                          gravity: ToastGravity.CENTER,
-                          timeInSecForIos: 1,
-                          backgroundColor: Theme.of(context).accentColor,
-                          textColor: Colors.white,
-                          fontSize: 16.0);
+                        Fluttertoast.showToast(
+                            msg: "Item added to cart!",
+                            toastLength: Toast.LENGTH_LONG,
+                            gravity: ToastGravity.CENTER,
+                            timeInSecForIos: 1,
+                            backgroundColor: Theme.of(context).accentColor,
+                            textColor: Colors.white,
+                            fontSize: 16.0);
+                      }
                     },
                   ),
                 ),
